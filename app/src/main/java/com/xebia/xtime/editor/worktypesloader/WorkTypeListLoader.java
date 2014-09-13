@@ -1,7 +1,7 @@
 package com.xebia.xtime.editor.worktypesloader;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
 
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.WorkType;

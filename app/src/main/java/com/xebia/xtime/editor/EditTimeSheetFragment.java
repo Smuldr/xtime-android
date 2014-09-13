@@ -2,13 +2,11 @@ package com.xebia.xtime.editor;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -109,7 +107,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
             mDate = new Date(getArguments().getLong(ARG_DATE));
             mProjects = getArguments().getParcelableArrayList(ARG_PROJECTS);
             mTimeSheetEntry = getArguments().getParcelable(ARG_TIME_SHEET);
-            mWorkTypes = new ArrayList<WorkType>();
+            mWorkTypes = new ArrayList<>();
         }
 
         if (null != mTimeSheetEntry) {
@@ -150,7 +148,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
 
     private void initWorkTypeView() {
         // set up the spinner adapter
-        ArrayAdapter<WorkType> adapter = new ArrayAdapter<WorkType>(getActivity(),
+        ArrayAdapter<WorkType> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, mWorkTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mWorkTypeView.setAdapter(adapter);
@@ -161,7 +159,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
 
     private void initProjectView() {
         // set up the spinner adapter
-        ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
+        ArrayAdapter<Project> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, mProjects);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mProjectView.setAdapter(adapter);
@@ -216,7 +214,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
         Bundle args = new Bundle();
         args.putParcelable("project", project);
         args.putLong("date", mDate.getTime());
-        getActivity().getSupportLoaderManager().restartLoader(0, args, this);
+        getActivity().getLoaderManager().restartLoader(0, args, this);
     }
 
     @Override
@@ -370,35 +368,26 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
      * Shows the busy indicator UI and hides the editor form.
      */
     @SuppressWarnings("ConstantConditions")
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showBusyIndicator(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allows for very easy
-        // animations. If available, use these APIs to fade-in the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mBusyIndicatorView.setVisibility(View.VISIBLE);
-            mBusyIndicatorView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mBusyIndicatorView.setVisibility(show ? View.VISIBLE : View.GONE);
-                        }
-                    });
+        mBusyIndicatorView.setVisibility(View.VISIBLE);
+        mBusyIndicatorView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mBusyIndicatorView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    }
+                });
 
-            mMainView.setVisibility(View.VISIBLE);
-            mMainView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mMainView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show and hide the
-            // relevant UI components.
-            mBusyIndicatorView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mMainView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mMainView.setVisibility(View.VISIBLE);
+        mMainView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mMainView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    }
+                });
     }
 
     @Override

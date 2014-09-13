@@ -1,7 +1,7 @@
 package com.xebia.xtime.monthoverview.loader;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
 
 import com.xebia.xtime.shared.Config;
 import com.xebia.xtime.shared.XTimeRequest;

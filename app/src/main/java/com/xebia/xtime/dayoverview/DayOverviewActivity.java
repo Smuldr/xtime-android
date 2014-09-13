@@ -1,12 +1,12 @@
 package com.xebia.xtime.dayoverview;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,8 +28,7 @@ import java.util.TimeZone;
  * Clicking on a time sheet entry opens up the {@link EditTimeSheetActivity},
  * and the action bar also contains an option to create a new time sheet entry.
  */
-public class DayOverviewActivity extends ActionBarActivity implements DailyTimeSheetFragment
-        .Listener {
+public class DayOverviewActivity extends Activity implements DailyTimeSheetFragment.Listener {
 
     /**
      * Key for intent extra that contains the day overview to display
@@ -56,7 +55,7 @@ public class DayOverviewActivity extends ActionBarActivity implements DailyTimeS
             ArrayList<TimeSheetEntry> timeSheets = (ArrayList<TimeSheetEntry>) mOverview
                     .getTimeSheetEntries();
             Fragment fragment = DailyTimeSheetFragment.getInstance(timeSheets);
-            FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction tx = getFragmentManager().beginTransaction();
             tx.replace(R.id.content, fragment, "tag");
             tx.commit();
         }
@@ -158,7 +157,7 @@ public class DayOverviewActivity extends ActionBarActivity implements DailyTimeS
      * Notifies the list fragment that the data set changed and the list might have to be updated.
      */
     private void onDataSetChanged() {
-        DailyTimeSheetFragment fragment = (DailyTimeSheetFragment) getSupportFragmentManager()
+        DailyTimeSheetFragment fragment = (DailyTimeSheetFragment) getFragmentManager()
                 .findFragmentByTag("tag");
         fragment.onDataSetChanged();
     }

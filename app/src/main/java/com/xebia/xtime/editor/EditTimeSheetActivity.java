@@ -1,9 +1,9 @@
 package com.xebia.xtime.editor;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 
 import com.xebia.xtime.R;
 import com.xebia.xtime.shared.model.Project;
@@ -18,7 +18,7 @@ import java.util.Date;
  * When the activity is created, it checks the {@link #EXTRA_TIME_SHEET} Intent extra for a time
  * sheet entry to edit. If the time sheet is not present, a new one will be created.
  */
-public class EditTimeSheetActivity extends ActionBarActivity implements EditTimeSheetFragment
+public class EditTimeSheetActivity extends Activity implements EditTimeSheetFragment
         .Listener {
 
     /**
@@ -58,7 +58,7 @@ public class EditTimeSheetActivity extends ActionBarActivity implements EditTime
 
         if (savedInstanceState == null) {
             Fragment fragment = EditTimeSheetFragment.getInstance(date, projects, entry);
-            getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
         }
     }
 

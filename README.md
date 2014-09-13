@@ -5,10 +5,10 @@ Android client for the [Xebia Time Tracking System](https://xtime.xebia.com/).
 
 ## Requirements and dependencies
 
-- Android Build Tools version 19.0.1
-- Gradle version 1.9 (Gradle wrapper is included in the project)
-- Android support library v4 19.0.0 (for Fragment compatibility)
-- Android support library v7 19.0.0 (for AppCompat theme and ActionBarActivity)
+- Android Build Tools version 20.0.0
+- Gradle version 1.12 (Gradle wrapper is included in the project)
+- Android support library v13 20.0.0 (for Fragment compatibility)
+- OkHttp library 2.0.0
 
 ## Project structure
 

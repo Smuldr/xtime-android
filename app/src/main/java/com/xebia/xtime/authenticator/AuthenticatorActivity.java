@@ -5,10 +5,8 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,7 +27,7 @@ import java.io.IOException;
  */
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
-    public static final String KEY_ADD_NEW_ACCOUNT =  "com.xebia.xtime.extra.ADD_NEW_ACCOUNT";
+    public static final String KEY_ADD_NEW_ACCOUNT = "com.xebia.xtime.extra.ADD_NEW_ACCOUNT";
     private static final String TAG = "AuthenticatorActivity";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -135,36 +133,26 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allows for very easy
-        // animations. If available, use these APIs to fade-in the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginStatusView.setVisibility(View.VISIBLE);
-            mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener
-                    (new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-                        }
-                    });
+        mLoginStatusView.setVisibility(View.VISIBLE);
+        mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    }
+                });
 
-            mLoginFormView.setVisibility(View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener
-                    (new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                        }
-                    });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mLoginFormView.setVisibility(View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    }
+                });
     }
 
     private void finishLogin(String cookie) {
@@ -174,7 +162,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         final Account account = new Account(mUsername, Authenticator.ACCOUNT_TYPE);
         if (getIntent().getBooleanExtra(KEY_ADD_NEW_ACCOUNT, false)) {
             // Creating the account on the device and setting the auth token we got
-            // (Not setting the auth token will cause another call to the server to authenticate the user)
+            // (Not setting the auth token will cause another call to the server to authenticate
+            // the user)
             accountManager.addAccountExplicitly(account, mPassword, null);
             accountManager.setAuthToken(account, Authenticator.AUTH_TYPE, cookie);
             accountManager.setPassword(account, mPassword);

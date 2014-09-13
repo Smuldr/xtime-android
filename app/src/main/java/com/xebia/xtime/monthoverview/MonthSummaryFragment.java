@@ -1,9 +1,10 @@
 package com.xebia.xtime.monthoverview;
 
+import android.app.ListFragment;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,7 +55,7 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
 
     private void showList() {
         if (null == mRows) {
-            mRows = new ArrayList<TimeSheetRow>();
+            mRows = new ArrayList<>();
             setListAdapter(new TimeSheetRowAdapter(getActivity(), mRows));
         } else {
             mRows.clear();
@@ -107,7 +108,7 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mFooterView = inflater.inflate(R.layout.row_grand_total, null, false);
         return super.onCreateView(inflater, container, savedInstanceState);

@@ -17,7 +17,7 @@ android {
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 15
         targetSdkVersion 20
     }
     compileOptions {
@@ -27,8 +27,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.android.support:support-v13:20.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
 }
 

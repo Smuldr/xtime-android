@@ -1,6 +1,6 @@
 package com.xebia.xtime.shared;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 
 import java.lang.reflect.Field;
