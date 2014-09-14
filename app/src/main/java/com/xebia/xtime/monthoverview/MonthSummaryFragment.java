@@ -94,7 +94,7 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     public void onApproveConfirmed() {
         setListShown(false);
         double grandTotal = TimeSheetUtils.getGrandTotalHours(mOverview);
-        new ApproveTask(this).execute(grandTotal, (double) mMonth.getTime());
+        new ApproveTask(getActivity(), this).execute(grandTotal, (double) mMonth.getTime());
     }
 
     @Override

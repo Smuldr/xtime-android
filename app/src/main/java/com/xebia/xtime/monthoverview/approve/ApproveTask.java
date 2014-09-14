@@ -1,9 +1,14 @@
 package com.xebia.xtime.monthoverview.approve;
 
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
+import android.content.Context;
 import android.os.AsyncTask;
 
-import org.apache.http.auth.AuthenticationException;
+import com.xebia.xtime.shared.CookieHelper;
+import com.xebia.xtime.shared.webservice.XTimeWebService;
 
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -11,9 +16,11 @@ import java.util.Date;
  */
 public class ApproveTask extends AsyncTask<Double, Void, Boolean> {
 
+    private final Context mContext;
     private final Listener mListener;
 
-    public ApproveTask(Listener listener) {
+    public ApproveTask(Context context, Listener listener) {
+        mContext = context;
         mListener = listener;
     }
 
@@ -23,11 +30,12 @@ public class ApproveTask extends AsyncTask<Double, Void, Boolean> {
             throw new NullPointerException("Missing month or hours parameter");
         }
         double hours = params[0];
-        long month = Math.round(params[1]);
+        Date month = new Date(Math.round(params[1]));
 
         try {
-            new ApproveRequest(hours, new Date(month)).submit();
-        } catch (AuthenticationException e) {
+            String cookie = CookieHelper.getCookie(mContext);
+            XTimeWebService.getInstance().approveMonth(hours, month, cookie);
+        } catch (AuthenticatorException | OperationCanceledException | IOException e) {
             return null;
         }
 

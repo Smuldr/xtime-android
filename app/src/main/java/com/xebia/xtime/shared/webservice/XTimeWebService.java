@@ -61,6 +61,18 @@ public class XTimeWebService {
         return response.isSuccessful() ? response.body().string() : null;
     }
 
+    public String approveMonth(final double grandTotal, final Date month,
+                               final String cookie) throws IOException {
+        if (BuildConfig.DEBUG) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(month);
+            Log.d(TAG, "Approve month " + (calendar.get(Calendar.MONTH) + 1));
+        }
+        RequestBody body = new ApproveRequestBuilder().grandTotal(grandTotal).month(month).build();
+        Response response = doRequest(body, "monthlyApprove.html", cookie);
+        return response.isSuccessful() ? response.body().string() : null;
+    }
+
     private Response doRequest(final RequestBody body, final String path) throws IOException {
         return doRequest(body, path, "");
     }
