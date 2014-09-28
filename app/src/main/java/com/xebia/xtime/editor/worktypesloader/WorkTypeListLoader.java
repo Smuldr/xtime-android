@@ -8,7 +8,7 @@ import android.content.Context;
 import com.xebia.xtime.shared.CookieHelper;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.WorkType;
-import com.xebia.xtime.webservice.XTimeWebService;
+import com.xebia.xtime.shared.webservice.XTimeWebService;
 
 import java.io.IOException;
 import java.util.Date;

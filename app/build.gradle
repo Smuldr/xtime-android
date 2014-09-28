@@ -13,12 +13,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 19
     buildToolsVersion '20.0.0'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 19
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -29,6 +29,7 @@ android {
 dependencies {
     compile 'com.android.support:support-v13:20.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.okhttp:mockwebserver:2.0.0'
 }
 
 // load gradle file with the secret signing config for release, see:

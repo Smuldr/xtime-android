@@ -1,0 +1,29 @@
+
+throw 'allowScriptTagRemoting is false.';
+//#DWR-INSERT
+//#DWR-REPLY
+var s0=[];var s2={};var s7=[];var s8={};var s3={};var s9=[];var s10={};var s11={};var s12={};var s4={};var s13=[];var s14={};var s5={};var s15=[];var s16={};var s17={};var s18={};var s19={};var s20={};var s21={};var s6={};var s22=[];var s23={};var s1=[];s0[0]=s2;s0[1]=s3;s0[2]=s4;s0[3]=s5;s0[4]=s6;
+s2.clientName="CLIENT 1";s2.description="";s2.projectId="1757";s2.projectName="PROEJECT 1";s2.timeCells=s7;s2.userId="1015900";s2.workTypeDescription="Consultancy Standard";s2.workTypeId="100";
+s7[0]=s8;
+s8.approved=false;s8.entryDate=new Date(1389049200000);s8.fromAfas=false;s8.hour="4.0";s8.transferredToAfas=false;
+s3.clientName="Xebia Internal";s3.description="";s3.projectId="1";s3.projectName="Internal Project";s3.timeCells=s9;s3.userId="1015900";s3.workTypeDescription="Idle (Leegloop)";s3.workTypeId="930";
+s9[0]=s10;s9[1]=s11;s9[2]=s12;
+s10.approved=false;s10.entryDate=new Date(1389222000000);s10.fromAfas=false;s10.hour="1.0";s10.transferredToAfas=false;
+s11.approved=false;s11.entryDate=new Date(1389135600000);s11.fromAfas=false;s11.hour="1.0";s11.transferredToAfas=false;
+s12.approved=false;s12.entryDate=new Date(1389049200000);s12.fromAfas=false;s12.hour="1.0";s12.transferredToAfas=false;
+s4.clientName="Xebia Internal";s4.description="";s4.projectId="1";s4.projectName="Internal Project";s4.timeCells=s13;s4.userId="1015900";s4.workTypeDescription="Public Holiday";s4.workTypeId="955";
+s13[0]=s14;
+s14.approved=false;s14.entryDate=new Date(1388530800000);s14.fromAfas=false;s14.hour="8.0";s14.transferredToAfas=false;
+s5.clientName="CLIENT 2";s5.description="";s5.projectId="1850";s5.projectName="PROJECT 2";s5.timeCells=s15;s5.userId="1015900";s5.workTypeDescription="Fixed Price Consultancy";s5.workTypeId="400";
+s15[0]=s16;s15[1]=s17;s15[2]=s18;s15[3]=s19;s15[4]=s20;s15[5]=s21;
+s16.approved=false;s16.entryDate=new Date(1389222000000);s16.fromAfas=false;s16.hour="7.0";s16.transferredToAfas=false;
+s17.approved=false;s17.entryDate=new Date(1389135600000);s17.fromAfas=false;s17.hour="7.0";s17.transferredToAfas=false;
+s18.approved=false;s18.entryDate=new Date(1388962800000);s18.fromAfas=false;s18.hour="8.0";s18.transferredToAfas=false;
+s19.approved=false;s19.entryDate=new Date(1389049200000);s19.fromAfas=false;s19.hour="3.0";s19.transferredToAfas=false;
+s20.approved=false;s20.entryDate=new Date(1388703600000);s20.fromAfas=false;s20.hour="6.0";s20.transferredToAfas=false;
+s21.approved=false;s21.entryDate=new Date(1388617200000);s21.fromAfas=false;s21.hour="8.0";s21.transferredToAfas=false;
+s6.clientName="Xebia Internal";s6.description="XTime for Android";s6.projectId="1";s6.projectName="Internal Project";s6.timeCells=s22;s6.userId="1015900";s6.workTypeDescription="Internal work";s6.workTypeId="940";
+s22[0]=s23;
+s23.approved=false;s23.entryDate=new Date(1388703600000);s23.fromAfas=false;s23.hour="2.0";s23.transferredToAfas=false;
+s1[0]=4;s1[1]=5;s1[2]=11;s1[3]=12;s1[4]=18;s1[5]=19;s1[6]=25;s1[7]=26;
+dwr.engine._remoteHandleCallback('0','0',{lastTransferredDate:new Date(1388444400000),monthDaysCount:31,monthlyDataApproved:false,monthlyDataTransferred:false,projects:null,timesheetRows:s0,userName:"Steven Mulder",weekEndDates:s1,weekStart:null});

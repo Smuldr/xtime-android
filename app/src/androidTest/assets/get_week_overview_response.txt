@@ -1,0 +1,23 @@
+
+throw 'allowScriptTagRemoting is false.';
+//#DWR-INSERT
+//#DWR-REPLY
+var s0=[];var s3={};var s4={};var s5={};var s6={};var s7={};var s8={};var s9={};var s10={};var s11={};var s12={};var s1=[];var s13={};var s14=[];var s15={};var s16={};var s17={};var s2=[];s0[0]=s3;s0[1]=s4;s0[2]=s5;s0[3]=s6;s0[4]=s7;s0[5]=s8;s0[6]=s9;s0[7]=s10;s0[8]=s11;s0[9]=s12;
+s3.description="PROJECT 1757";s3.id="1757";
+s4.description="PROJECT 1831";s4.id="1831";
+s5.description="India Mentorship Programme";s5.id="0940";
+s6.description="PROJECT 1828";s6.id="1828";
+s7.description="PROJECT 1860";s7.id="1860";
+s8.description="Internal projects";s8.id="1";
+s9.description="PROJECT 1850";s9.id="1850";
+s10.description="Pre-sales werkzaamheden";s10.id="0073";
+s11.description="TECHRALLY";s11.id="0072";
+s12.description="XKE";s12.id="0062";
+s1[0]=s13;
+s13.clientName="Xebia Internal";s13.description="XTime for Android";s13.projectId="1";s13.projectName="Internal Project";s13.timeCells=s14;s13.userId="1015900";s13.workTypeDescription="Internal work";s13.workTypeId="940";
+s14[0]=s15;s14[1]=s16;s14[2]=s17;
+s15.approved=false;s15.entryDate=new Date(1388358000000);s15.fromAfas=false;s15.hour="3.25";s15.transferredToAfas=false;
+s16.approved=false;s16.entryDate=new Date(1388444400000);s16.fromAfas=false;s16.hour="3.5";s16.transferredToAfas=false;
+s17.approved=false;s17.entryDate=new Date(1388530800000);s17.fromAfas=false;s17.hour="3.75";s17.transferredToAfas=false;
+s2[0]=4;s2[1]=5;
+dwr.engine._remoteHandleCallback('0','0',{lastTransferredDate:new Date(1385766000000),monthDaysCount:7,monthlyDataApproved:false,monthlyDataTransferred:false,projects:s0,timesheetRows:s1,userName:"Foo Bar",weekEndDates:s2,weekStart:null});

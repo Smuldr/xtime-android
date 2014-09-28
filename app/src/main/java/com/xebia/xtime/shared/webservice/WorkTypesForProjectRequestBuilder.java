@@ -1,4 +1,4 @@
-package com.xebia.xtime.webservice;
+package com.xebia.xtime.shared.webservice;
 
 import com.squareup.okhttp.RequestBody;
 import com.xebia.xtime.shared.model.Project;

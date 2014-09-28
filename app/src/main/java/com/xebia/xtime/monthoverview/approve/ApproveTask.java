@@ -34,12 +34,10 @@ public class ApproveTask extends AsyncTask<Double, Void, Boolean> {
 
         try {
             String cookie = CookieHelper.getCookie(mContext);
-            XTimeWebService.getInstance().approveMonth(hours, month, cookie);
+            return XTimeWebService.getInstance().approveMonth(hours, month, cookie);
         } catch (AuthenticatorException | OperationCanceledException | IOException e) {
             return null;
         }
-
-        return true;
     }
 
     @Override
@@ -53,5 +51,4 @@ public class ApproveTask extends AsyncTask<Double, Void, Boolean> {
     public interface Listener {
         public abstract void onApproveComplete(Boolean result);
     }
-
 }

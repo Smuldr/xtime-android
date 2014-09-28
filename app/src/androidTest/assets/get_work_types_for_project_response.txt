@@ -1,0 +1,12 @@
+
+throw 'allowScriptTagRemoting is false.';
+//#DWR-INSERT
+//#DWR-REPLY
+var s0=[];var s1=[];var s2={};var s3={};var s4={};var s5={};var s6={};s0[0]=false;s0[1]=false;s0[2]=false;s0[3]=false;s0[4]=false;s0[5]=false;s0[6]=false;
+s1[0]=s2;s1[1]=s3;s1[2]=s4;s1[3]=s5;s1[4]=s6;
+s2.workType="400";s2.workTypeDescription="Fixed Price Consultancy";
+s3.workType="420";s3.workTypeDescription="Consultancy on Maintenance contracts";
+s4.workType="430";s4.workTypeDescription="Free work/ cost for  Xebia";
+s5.workType="450";s5.workTypeDescription="Trainings (given)";
+s6.workType="455";s6.workTypeDescription="Trainings (preparation)";
+dwr.engine._remoteHandleCallback('4','0',{dayEnabledStatus:s0,workTypeWorkGroupList:s1});
