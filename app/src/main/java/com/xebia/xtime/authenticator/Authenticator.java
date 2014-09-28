@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.xebia.xtime.R;
-import com.xebia.xtime.shared.webservice.XTimeWebService;
+import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
 

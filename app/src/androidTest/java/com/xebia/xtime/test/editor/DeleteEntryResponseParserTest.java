@@ -1,4 +1,4 @@
-package com.xebia.xtime.test.dayoverview;
+package com.xebia.xtime.test.editor;
 
 import com.xebia.xtime.editor.delete.DeleteEntryResponseParser;
 

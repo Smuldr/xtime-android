@@ -1,19 +1,26 @@
 package com.xebia.xtime.editor.delete;
 
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
+import android.content.Context;
 import android.os.AsyncTask;
 
+import com.xebia.xtime.shared.CookieHelper;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
+import com.xebia.xtime.webservice.XTimeWebService;
 
-import org.apache.http.auth.AuthenticationException;
+import java.io.IOException;
 
 /**
  * Asynchronous task to delete a time sheet entry
  */
 public class DeleteEntryTask extends AsyncTask<TimeSheetEntry, Void, Boolean> {
 
+    private final Context mContext;
     private final Listener mListener;
 
-    public DeleteEntryTask(Listener listener) {
+    public DeleteEntryTask(final Context context, final Listener listener) {
+        mContext = context;
         mListener = listener;
     }
 
@@ -24,9 +31,11 @@ public class DeleteEntryTask extends AsyncTask<TimeSheetEntry, Void, Boolean> {
         }
 
         try {
-            String response = new DeleteEntryRequest(params[0]).submit();
+            String cookie = CookieHelper.getCookie(mContext);
+            String response = XTimeWebService.getInstance()
+                    .deleteEntry(params[0], cookie);
             return DeleteEntryResponseParser.parse(response);
-        } catch (AuthenticationException e) {
+        } catch (AuthenticatorException | OperationCanceledException | IOException e) {
             return null;
         }
     }

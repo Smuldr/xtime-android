@@ -330,7 +330,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
 
     private void onDeleteClick() {
         showBusyIndicator(true);
-        new DeleteEntryTask(this).execute(mTimeSheetEntry);
+        new DeleteEntryTask(getActivity(), this).execute(mTimeSheetEntry);
     }
 
     private double getTimeInput() {

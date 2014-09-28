@@ -7,6 +7,9 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 import com.xebia.xtime.shared.model.Project;
+import com.xebia.xtime.shared.model.Task;
+import com.xebia.xtime.shared.model.TimeEntry;
+import com.xebia.xtime.shared.model.WorkType;
 import com.xebia.xtime.test.Mocks;
 import com.xebia.xtime.webservice.XTimeWebService;
 
@@ -140,6 +143,34 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 request.getUtf8Body());
         assertEquals("application/x-www-form-urlencoded; charset=utf-8",
                 request.getHeader("Content-Type"));
+        assertEquals("cookie", request.getHeader("Cookie"));
+    }
+
+    public void testDeleteTimeEntry() throws Exception {
+        final String mockResponse = Mocks.deleteTimeEntryResponse(mContext);
+        mServer.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(mockResponse));
+        Date date = new Date(1426287600000l); // Sat, 14 Mar 2015, 0:00:00 CET
+        TimeEntry timeEntry = new TimeEntry(new Task(new Project("1", "foo"),
+                new WorkType("940", "bar"), "description"), date, 8, false);
+        String result = mWebService.deleteEntry(timeEntry, "cookie");
+        RecordedRequest request = mServer.takeRequest();
+
+        assertEquals(mockResponse, result);
+        assertEquals("callCount=1\n"
+                + "page=/xtime/entryform.html\n"
+                + "httpSessionId=\n"
+                + "scriptSessionId=\n"
+                + "c0-scriptName=TimeEntryServiceBean\n"
+                + "c0-methodName=deleteTimeSheetEntries\n"
+                + "c0-id=0\n"
+                + "c0-param0=string:1\n"
+                + "c0-param1=string:940\n"
+                + "c0-param2=string:description\n"
+                + "c0-param3=string:2015-03-14\n"
+                + "batchId=0", request.getUtf8Body());
+        assertEquals("text/plain; charset=utf-8", request.getHeader("Content-Type"));
         assertEquals("cookie", request.getHeader("Cookie"));
     }
 }

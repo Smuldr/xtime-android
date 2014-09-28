@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xebia.xtime.R;
-import com.xebia.xtime.shared.webservice.XTimeWebService;
+import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
 

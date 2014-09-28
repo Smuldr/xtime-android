@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.xebia.xtime.shared.CookieHelper;
-import com.xebia.xtime.shared.webservice.XTimeWebService;
+import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
 import java.util.Date;

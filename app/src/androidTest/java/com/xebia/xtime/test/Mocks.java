@@ -22,6 +22,10 @@ public class Mocks {
         return readFromFile(context, "get_work_types_for_project_response.txt");
     }
 
+    public static String deleteTimeEntryResponse(final Context context) throws IOException {
+        return readFromFile(context, "delete_time_sheet_row_response.txt");
+    }
+
     private static String readFromFile(final Context context, final String fileName) throws
             IOException {
         String result = null;
