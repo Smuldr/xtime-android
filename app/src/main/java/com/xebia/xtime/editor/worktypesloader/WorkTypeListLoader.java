@@ -1,13 +1,16 @@
 package com.xebia.xtime.editor.worktypesloader;
 
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
+import com.xebia.xtime.shared.CookieHelper;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.WorkType;
+import com.xebia.xtime.webservice.XTimeWebService;
 
-import org.apache.http.auth.AuthenticationException;
-
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +28,11 @@ public class WorkTypeListLoader extends AsyncTaskLoader<List<WorkType>> {
     @Override
     public List<WorkType> loadInBackground() {
         try {
-            String response = new WorkTypesForProjectRequest(mProject, mDate).submit();
+            String cookie = CookieHelper.getCookie(getContext());
+            String response = XTimeWebService.getInstance()
+                    .getWorkTypesForProject(mProject, mDate, cookie);
             return WorkTypeListParser.parse(response);
-        } catch (AuthenticationException e) {
+        } catch (AuthenticatorException | OperationCanceledException | IOException e) {
             return null;
         }
     }

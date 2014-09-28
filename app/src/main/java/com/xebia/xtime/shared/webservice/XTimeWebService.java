@@ -8,6 +8,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.xebia.xtime.BuildConfig;
+import com.xebia.xtime.shared.model.Project;
 
 import java.io.IOException;
 import java.net.CookieManager;
@@ -18,9 +19,9 @@ import java.util.Date;
 public class XTimeWebService {
 
     private static final XTimeWebService INSTANCE = new XTimeWebService();
-    private static final Uri BASE_URI = Uri.parse("https://xtime.xebia.com/xtime");
     private static final String TAG = "XTimeWebService";
     private final OkHttpClient mHttpClient;
+    private Uri mBaseUri = Uri.parse("https://xtime.xebia.com/xtime");
 
     private XTimeWebService() {
         mHttpClient = new OkHttpClient();
@@ -31,6 +32,10 @@ public class XTimeWebService {
 
     public static XTimeWebService getInstance() {
         return INSTANCE;
+    }
+
+    public void setBaseUrl(final String baseUrl) {
+        mBaseUri = Uri.parse(baseUrl);
     }
 
     /**
@@ -61,8 +66,8 @@ public class XTimeWebService {
         return response.isSuccessful() ? response.body().string() : null;
     }
 
-    public String approveMonth(final double grandTotal, final Date month,
-                               final String cookie) throws IOException {
+    public boolean approveMonth(final double grandTotal, final Date month,
+                                final String cookie) throws IOException {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(month);
@@ -70,6 +75,25 @@ public class XTimeWebService {
         }
         RequestBody body = new ApproveRequestBuilder().grandTotal(grandTotal).month(month).build();
         Response response = doRequest(body, "monthlyApprove.html", cookie);
+        while (null != response.priorResponse()) {
+            response = response.priorResponse();
+        }
+        String locationHeader = response.header("Location");
+        return locationHeader != null && !locationHeader.contains("error");
+    }
+
+    public String getWorkTypesForProject(final Project project, final Date week,
+                                         final String cookie) throws IOException {
+        if (BuildConfig.DEBUG) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(week);
+            Log.d(TAG, "Get work types for " + project + " in " + (calendar.get(Calendar
+                    .WEEK_OF_YEAR)));
+        }
+        RequestBody body = new WorkTypesForProjectRequestBuilder().project(project).week(week)
+                .build();
+        Response response = doRequest(body, "dwr/call/plaincall/"
+                + "TimeEntryServiceBean.getWorkTypesListForProjectInRange.dwr", cookie);
         return response.isSuccessful() ? response.body().string() : null;
     }
 
@@ -80,7 +104,7 @@ public class XTimeWebService {
     private Response doRequest(final RequestBody body, final String path,
                                final String cookie) throws IOException {
         Request request = new Request.Builder()
-                .url(BASE_URI.buildUpon().appendEncodedPath(path).build().toString())
+                .url(mBaseUri.buildUpon().appendEncodedPath(path).build().toString())
                 .post(body)
                 .header("Cookie", cookie != null ? cookie : "")
                 .build();
