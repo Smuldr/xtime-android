@@ -1,10 +1,13 @@
 package com.xebia.xtime.monthoverview;
 
-import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.Loader;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;

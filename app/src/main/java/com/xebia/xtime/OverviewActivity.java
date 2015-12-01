@@ -5,14 +5,16 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.accounts.OperationCanceledException;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.SimpleAdapter;
 
 import com.xebia.xtime.authenticator.Authenticator;
@@ -28,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OverviewActivity extends Activity implements DailyHoursListFragment.Listener {
+public class OverviewActivity extends AppCompatActivity implements DailyHoursListFragment.Listener {
 
     private static final String TAG = "OverviewActivity";
     private AccountManager mAccountManager;
@@ -84,23 +86,46 @@ public class OverviewActivity extends Activity implements DailyHoursListFragment
                 new int[]{android.R.id.text1});
 
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(adapter,
-                new ActionBar.OnNavigationListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                        Map<String, Object> map = data.get(itemPosition);
-                        Object o = map.get("fragment");
-                        if (o instanceof Fragment) {
-                            FragmentTransaction tx = getFragmentManager().beginTransaction();
-                            tx.replace(android.R.id.content, (Fragment) o);
-                            tx.commit();
+        if (null != actionBar) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+            actionBar.setListNavigationCallbacks(adapter,
+                    new ActionBar.OnNavigationListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                            Map<String, Object> map = data.get(itemPosition);
+                            Object o = map.get("fragment");
+                            if (o instanceof Fragment) {
+                                FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+                                tx.replace(android.R.id.content, (Fragment) o);
+                                tx.commit();
+                            }
+                            return true;
                         }
-                        return true;
                     }
-                }
-        );
+            );
+        }
+
+        map = data.get(0);
+        Object o = map.get("fragment");
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(android.R.id.content, (Fragment) o);
+        tx.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_overview, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            // TODO: logout
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.xebia.xtime.shared;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
  */
 public class FragmentWithChildFragmentManager extends Fragment {
 
-    private static final String TAG = "FragmentWithChildFragmentManager";
+    private static final String TAG = "FragmentWithChildFragme";
     private static final Field sChildFragmentManagerField;
 
     static {

@@ -2,9 +2,8 @@ package com.xebia.xtime.editor.save;
 
 import android.os.AsyncTask;
 
+import com.xebia.xtime.shared.XTimeAuthenticationException;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
-
-import org.apache.http.auth.AuthenticationException;
 
 /**
  * Asynchronous task to save the changes to a time sheet entry
@@ -26,7 +25,7 @@ public class SaveEntryTask extends AsyncTask<TimeSheetEntry, Void, Boolean> {
         String response;
         try {
             response = new SaveTimeSheetRequest(params[0]).submit();
-        } catch (AuthenticationException e) {
+        } catch (XTimeAuthenticationException e) {
             return null;
         }
 

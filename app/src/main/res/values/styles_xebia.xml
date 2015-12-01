@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Xebia" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.Xebia" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_xebia</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Xebia</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Xebia</item>

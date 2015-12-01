@@ -1,14 +1,13 @@
 package com.xebia.xtime.monthoverview.loader;
 
-import android.content.AsyncTaskLoader;
+import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
 
 import com.xebia.xtime.shared.Config;
+import com.xebia.xtime.shared.XTimeAuthenticationException;
 import com.xebia.xtime.shared.XTimeRequest;
 import com.xebia.xtime.shared.model.XTimeOverview;
 import com.xebia.xtime.shared.parser.XTimeOverviewParser;
-
-import org.apache.http.auth.AuthenticationException;
 
 import java.util.Date;
 
@@ -28,7 +27,7 @@ public class MonthOverviewLoader extends AsyncTaskLoader<XTimeOverview> {
         try {
             String response = request.submit();
             return XTimeOverviewParser.parse(response);
-        } catch (AuthenticationException e) {
+        } catch (XTimeAuthenticationException e) {
             return null;
         }
     }

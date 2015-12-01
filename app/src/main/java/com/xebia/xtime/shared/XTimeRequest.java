@@ -3,8 +3,6 @@ package com.xebia.xtime.shared;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.apache.http.auth.AuthenticationException;
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,9 +31,9 @@ public abstract class XTimeRequest {
      * security, and calls through to #connect() to make the actual HTTP request.
      *
      * @return Response content, or null if the request failed.
-     * @throws AuthenticationException If the request was denied due to invalid session.
+     * @throws XTimeAuthenticationException If the request was denied due to invalid session.
      */
-    public String submit() throws AuthenticationException {
+    public String submit() throws XTimeAuthenticationException {
 
         HttpURLConnection urlConnection = null;
         try {
@@ -65,7 +63,7 @@ public abstract class XTimeRequest {
             // request was successful if the Location header does not redirect to an error page
             String location = urlConnection.getHeaderField("Location");
             if (location != null && location.contains("error=true")) {
-                throw new AuthenticationException("Invalid session");
+                throw new XTimeAuthenticationException("Invalid session");
             }
 
             // read response data

@@ -1,10 +1,10 @@
 package com.xebia.xtime.monthoverview;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Build;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 
 import java.text.DateFormat;

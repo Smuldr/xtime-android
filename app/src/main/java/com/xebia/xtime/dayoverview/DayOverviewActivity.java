@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,7 +29,7 @@ import java.util.TimeZone;
  * Clicking on a time sheet entry opens up the {@link EditTimeSheetActivity},
  * and the action bar also contains an option to create a new time sheet entry.
  */
-public class DayOverviewActivity extends Activity implements DailyTimeSheetFragment.Listener {
+public class DayOverviewActivity extends AppCompatActivity implements DailyTimeSheetFragment.Listener {
 
     /**
      * Key for intent extra that contains the day overview to display

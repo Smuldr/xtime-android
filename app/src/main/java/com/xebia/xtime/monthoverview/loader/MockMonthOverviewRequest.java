@@ -1,8 +1,7 @@
 package com.xebia.xtime.monthoverview.loader;
 
+import com.xebia.xtime.shared.XTimeAuthenticationException;
 import com.xebia.xtime.shared.XTimeRequest;
-
-import org.apache.http.auth.AuthenticationException;
 
 public class MockMonthOverviewRequest extends XTimeRequest {
 
@@ -49,7 +48,7 @@ public class MockMonthOverviewRequest extends XTimeRequest {
             "dwr.engine._remoteHandleCallback('0','0',{lastTransferredDate:new Date(1388444400000),monthDaysCount:31,monthlyDataApproved:false,monthlyDataTransferred:false,projects:null,timesheetRows:s0,userName:\"Steven Mulder\",weekEndDates:s1,weekStart:null});\n";
 
     @Override
-    public String submit() throws AuthenticationException {
+    public String submit() throws XTimeAuthenticationException {
         return RESULT;
     }
 
