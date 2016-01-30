@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".dayoverview.DayOverviewActivity">
     <item
         android:id="@+id/newItem"
         android:icon="@android:drawable/ic_menu_add"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/action_new"/>
+        android:title="@string/action_new"
+        app:showAsAction="ifRoom|withText"/>
 </menu>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".OverviewActivity">
     <item
         android:id="@+id/approve"
         android:icon="@android:drawable/ic_menu_upload"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/action_approve"/>
+        android:title="@string/action_approve"
+        app:showAsAction="ifRoom|withText"/>
 </menu>
