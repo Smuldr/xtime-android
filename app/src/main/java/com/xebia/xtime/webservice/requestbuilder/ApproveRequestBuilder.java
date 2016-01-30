@@ -1,13 +1,13 @@
 package com.xebia.xtime.webservice.requestbuilder;
 
-import com.squareup.okhttp.RequestBody;
-
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import okhttp3.RequestBody;
 
 public class ApproveRequestBuilder {
 

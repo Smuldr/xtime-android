@@ -1,9 +1,9 @@
 package com.xebia.xtime.webservice.requestbuilder;
 
-import com.squareup.okhttp.RequestBody;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import okhttp3.RequestBody;
 
 public class LoginRequestBuilder {
 

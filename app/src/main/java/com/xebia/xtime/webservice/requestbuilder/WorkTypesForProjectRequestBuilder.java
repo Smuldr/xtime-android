@@ -1,6 +1,5 @@
 package com.xebia.xtime.webservice.requestbuilder;
 
-import com.squareup.okhttp.RequestBody;
 import com.xebia.xtime.shared.model.Project;
 
 import java.text.DateFormat;
@@ -8,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import okhttp3.RequestBody;
 
 public class WorkTypesForProjectRequestBuilder {
 

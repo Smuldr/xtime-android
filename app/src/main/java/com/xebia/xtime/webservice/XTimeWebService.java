@@ -2,10 +2,6 @@ package com.xebia.xtime.webservice;
 
 import android.net.Uri;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 import com.xebia.xtime.BuildConfig;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
@@ -17,11 +13,15 @@ import com.xebia.xtime.webservice.requestbuilder.LoginRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.WorkTypesForProjectRequestBuilder;
 
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.Calendar;
 import java.util.Date;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Logger;
 import timber.log.Timber;
 
 public class XTimeWebService {
@@ -31,10 +31,19 @@ public class XTimeWebService {
     private Uri mBaseUri = Uri.parse("https://xtime.xebia.com/xtime");
 
     private XTimeWebService() {
-        mHttpClient = new OkHttpClient();
-        CookieManager cookieManager = new CookieManager();
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        mHttpClient.setCookieHandler(cookieManager);
+        final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        clientBuilder.cookieJar(new XTimeCookieJar());
+        if (BuildConfig.DEBUG) {
+            final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new Logger() {
+                @Override
+                public void log(String message) {
+                    Timber.v(message);
+                }
+            });
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            clientBuilder.addInterceptor(loggingInterceptor);
+        }
+        mHttpClient = clientBuilder.build();
     }
 
     public static XTimeWebService getInstance() {
