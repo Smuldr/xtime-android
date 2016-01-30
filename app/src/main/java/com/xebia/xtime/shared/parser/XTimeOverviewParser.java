@@ -1,7 +1,6 @@
 package com.xebia.xtime.shared.parser;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeCell;
@@ -14,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import timber.log.Timber;
 
 /**
  * Parser for the response to a overview request from XTime. Uses regular expression acrobatics
@@ -35,7 +36,7 @@ public class XTimeOverviewParser {
      */
     public static XTimeOverview parse(String input) {
         if (TextUtils.isEmpty(input)) {
-            Log.d(TAG, "No input to parse");
+            Timber.d("No input to parse");
             return null;
         }
 
@@ -66,7 +67,7 @@ public class XTimeOverviewParser {
                     new Date(lastTransferredDate));
 
         } else {
-            Log.d(TAG, "Failed to parse input '" + input + "'");
+            Timber.d("Failed to parse input '%s'", input);
             return null;
         }
     }

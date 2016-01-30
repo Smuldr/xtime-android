@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * Fragment that represents a week as a list of days.
  * <p/>
@@ -137,6 +139,6 @@ public class DailyHoursListFragment extends ListFragment implements LoaderManage
      * Interface for handling clicks on the list of DayOverviews
      */
     public interface Listener {
-        public void onItemClicked(DayOverview overview);
+        void onItemClicked(DayOverview overview);
     }
 }

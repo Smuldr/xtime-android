@@ -1,7 +1,6 @@
 package com.xebia.xtime.shared;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -20,9 +19,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import timber.log.Timber;
+
 public abstract class XTimeRequest {
 
-    private static final String TAG = "XTimeRequest";
     public static final String CONTENT_TYPE_PLAIN = "text/plain";
     public static final String CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
 
@@ -71,10 +71,10 @@ public abstract class XTimeRequest {
             return readStream(in);
 
         } catch (IOException e) {
-            Log.w(TAG, "Failed to connect to XTime", e);
+            Timber.e(e, "Failed to connect to XTime");
             return null;
         } catch (GeneralSecurityException e) {
-            Log.e(TAG, "Failed to set custom SSL certificate manager", e);
+            Timber.e(e, "Failed to set custom SSL certificate manager");
             return null;
         } finally {
             if (urlConnection != null) {
@@ -119,7 +119,7 @@ public abstract class XTimeRequest {
         sc.init(null, new TrustManager[]{trustAllCerts}, new java.security.SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-        Log.w(TAG, "Careful: SSL certificate checks are disabled!");
+        Timber.w("Careful: SSL certificate checks are disabled!");
     }
 
     private void writeStream(OutputStream out) throws IOException {

@@ -8,7 +8,6 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +35,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Fragment for a time sheet entry editor. Contains spinners for selecting the project and type
  * of work, and text boxes for the description and the amount of time to register.
@@ -57,7 +58,6 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
     private static final String ARG_PROJECTS = "projects";
     private static final String ARG_DATE = "date";
     private static final String ARG_TIME_SHEET = "time_sheet";
-    private static final String TAG = "EditTimeSheetFragment";
     /**
      * List of work type IDs where the description is required.
      */
@@ -339,7 +339,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
         try {
             time = Double.parseDouble(timeString);
         } catch (NumberFormatException e) {
-            Log.w(TAG, "Failed to parse time input: " + mTimeView.getText());
+            Timber.w("Failed to parse time input: %s", mTimeView.getText());
         }
         return time;
     }

@@ -7,7 +7,6 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class MonthSummaryFragment extends ListFragment implements LoaderManager
         .LoaderCallbacks<XTimeOverview>, ApproveTask.Listener, ApproveConfirmDialog.Listener {

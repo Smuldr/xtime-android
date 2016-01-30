@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,13 +21,14 @@ import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
 
+import timber.log.Timber;
+
 /**
  * Activity which displays a login screen to the user
  */
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     public static final String KEY_ADD_NEW_ACCOUNT = "com.xebia.xtime.extra.ADD_NEW_ACCOUNT";
-    private static final String TAG = "AuthenticatorActivity";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -199,11 +199,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             String password = params[1];
             String cookie;
             try {
-                Log.d(TAG, "Login request: " + username + ", " + password);
+                Timber.d("Login request: %s, %s", username, password);
                 cookie = XTimeWebService.getInstance().login(username, password);
-                Log.d(TAG, "Login request result: " + cookie);
+                Timber.d("Login request result: %s", cookie);
             } catch (IOException e) {
-                Log.w(TAG, "Login request failed: '" + e.getMessage() + "'");
+                Timber.e(e, "Login request failed");
                 mException = e;
                 cookie = null;
             }

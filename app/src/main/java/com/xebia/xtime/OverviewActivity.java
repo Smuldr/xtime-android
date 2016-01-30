@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleAdapter;
@@ -30,9 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
+
 public class OverviewActivity extends AppCompatActivity implements DailyHoursListFragment.Listener {
 
-    private static final String TAG = "OverviewActivity";
     private AccountManager mAccountManager;
 
     @Override
@@ -43,20 +43,20 @@ public class OverviewActivity extends AppCompatActivity implements DailyHoursLis
         if (hasXTimeAccount()) {
             setListNavigation();
         } else {
-            Log.d(TAG, "Add account");
+            Timber.d("Add account");
             AccountManagerCallback<Bundle> callback = new AccountManagerCallback<Bundle>() {
                 @Override
                 public void run(AccountManagerFuture<Bundle> future) {
                     try {
-                        Log.d(TAG, "AccountManagerCallback called");
+                        Timber.d("AccountManagerCallback called");
                         if (future.isDone()) {
                             Bundle result = future.getResult();
                             String authToken = result.getString(AccountManager.KEY_AUTHTOKEN);
-                            Log.i(TAG, "Auth token: '" + authToken + "'");
+                            Timber.i("Auth token: '%s'", authToken);
                             setListNavigation();
                         }
                     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-                        Log.e(TAG, "Failed to get auth token", e);
+                        Timber.e(e, "Failed to get auth token");
                     }
                 }
             };

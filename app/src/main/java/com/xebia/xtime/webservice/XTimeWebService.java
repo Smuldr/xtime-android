@@ -1,7 +1,6 @@
 package com.xebia.xtime.webservice;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -12,6 +11,7 @@ import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
 import com.xebia.xtime.webservice.requestbuilder.ApproveRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.DeleteEntryRequestBuilder;
+import com.xebia.xtime.webservice.requestbuilder.GetMonthOverviewRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.GetWeekOverviewRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.LoginRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.WorkTypesForProjectRequestBuilder;
@@ -22,10 +22,11 @@ import java.net.CookiePolicy;
 import java.util.Calendar;
 import java.util.Date;
 
+import timber.log.Timber;
+
 public class XTimeWebService {
 
     private static final XTimeWebService INSTANCE = new XTimeWebService();
-    private static final String TAG = "XTimeWebService";
     private final OkHttpClient mHttpClient;
     private Uri mBaseUri = Uri.parse("https://xtime.xebia.com/xtime");
 
@@ -51,7 +52,7 @@ public class XTimeWebService {
      * @throws IOException
      */
     public String login(final String username, final String password) throws IOException {
-        Log.d(TAG, "Login");
+        Timber.d("Login");
         RequestBody body = new LoginRequestBuilder().username(username).password(password).build();
         Response response = doRequest(body, "j_spring_security_check");
         while (null != response.priorResponse()) {
@@ -60,11 +61,23 @@ public class XTimeWebService {
         return response.header("Set-Cookie");
     }
 
+    public String getMonthOverview(final Date month, final String cookie) throws IOException {
+        if (BuildConfig.DEBUG) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(month);
+            Timber.d("Get overview for month %s", calendar.get(Calendar.MONTH));
+        }
+        RequestBody body = new GetMonthOverviewRequestBuilder().month(month).build();
+        Response response = doRequest(body, "dwr/call/plaincall/" +
+                "TimeEntryServiceBean.getMonthOverview.dwr", cookie);
+        return response.isSuccessful() ? response.body().string() : null;
+    }
+
     public String getWeekOverview(final Date week, final String cookie) throws IOException {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(week);
-            Log.d(TAG, "Get overview for week " + calendar.get(Calendar.WEEK_OF_YEAR));
+            Timber.d("Get overview for week %s", calendar.get(Calendar.WEEK_OF_YEAR));
         }
         RequestBody body = new GetWeekOverviewRequestBuilder().week(week).build();
         Response response = doRequest(body, "dwr/call/plaincall/" +
@@ -77,7 +90,7 @@ public class XTimeWebService {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(month);
-            Log.d(TAG, "Approve month " + (calendar.get(Calendar.MONTH) + 1));
+            Timber.d("Approve month %s", (calendar.get(Calendar.MONTH) + 1));
         }
         RequestBody body = new ApproveRequestBuilder().grandTotal(grandTotal).month(month).build();
         Response response = doRequest(body, "monthlyApprove.html", cookie);
@@ -93,8 +106,7 @@ public class XTimeWebService {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(week);
-            Log.d(TAG, "Get work types for " + project + " in " + (calendar.get(Calendar
-                    .WEEK_OF_YEAR)));
+            Timber.d("Get work types for %s in %s", project, (calendar.get(Calendar.WEEK_OF_YEAR)));
         }
         RequestBody body = new WorkTypesForProjectRequestBuilder().project(project).week(week)
                 .build();
@@ -105,7 +117,7 @@ public class XTimeWebService {
 
     public String deleteEntry(final TimeSheetEntry timeEntry, final String cookie) throws IOException {
         if (BuildConfig.DEBUG) {
-            Log.d(TAG, "Delete entry " + timeEntry);
+            Timber.d("Delete entry %s", timeEntry);
         }
         RequestBody body = new DeleteEntryRequestBuilder()
                 .project(timeEntry.getProject())

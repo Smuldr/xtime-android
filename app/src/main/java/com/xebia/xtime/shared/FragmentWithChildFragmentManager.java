@@ -1,9 +1,10 @@
 package com.xebia.xtime.shared;
 
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.lang.reflect.Field;
+
+import timber.log.Timber;
 
 /**
  * Workaround for an exception when instantiating Fragments that use the child fragment manager,
@@ -14,7 +15,6 @@ import java.lang.reflect.Field;
  */
 public class FragmentWithChildFragmentManager extends Fragment {
 
-    private static final String TAG = "FragmentWithChildFragme";
     private static final Field sChildFragmentManagerField;
 
     static {
@@ -23,7 +23,7 @@ public class FragmentWithChildFragmentManager extends Fragment {
             f = Fragment.class.getDeclaredField("mChildFragmentManager");
             f.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            Log.e(TAG, "Error getting mChildFragmentManager field", e);
+            Timber.e(e, "Error getting mChildFragmentManager field");
         }
         sChildFragmentManagerField = f;
     }
@@ -36,7 +36,7 @@ public class FragmentWithChildFragmentManager extends Fragment {
             try {
                 sChildFragmentManagerField.set(this, null);
             } catch (Exception e) {
-                Log.e(TAG, "Error setting mChildFragmentManager field", e);
+                Timber.e(e, "Error setting mChildFragmentManager field");
             }
         }
     }
