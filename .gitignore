@@ -3,6 +3,7 @@
 /.idea/workspace.xml
 .DS_Store
 build/
+*.orig
 
 # IDE stuff
 .idea/
