@@ -63,7 +63,10 @@ public class LauncherActivity extends Activity {
         @Override
         public void run(AccountManagerFuture<Bundle> future) {
             Timber.d("AccountManagerCallback called");
-            if (future.isDone()) {
+            if (future.isCancelled()) {
+                Timber.d("Account setup cancelled");
+                activity.finish();
+            } else if (future.isDone()) {
                 activity.startOverviewActivity();
             } else {
                 Timber.w("Something is very wrong with the AccountManager");

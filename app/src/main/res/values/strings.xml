@@ -16,7 +16,7 @@
     <string name="empty_week_overview">Week overview unavailable</string>
     <string name="hours_label">hours</string>
     <string name="approved">approved</string>
-    <string name="action_sign_out">Sign out</string>
+    <string name="action_remove_account">Remove account</string>
     <!-- day overview activity -->
     <string name="title_activity_day_overview">Day Overview</string>
     <string name="empty_day_overview">Empty time sheet</string>

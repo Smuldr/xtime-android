@@ -1,5 +1,11 @@
 package com.xebia.xtime;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleAdapter;
 
+import com.xebia.xtime.authenticator.Authenticator;
 import com.xebia.xtime.dayoverview.DayOverviewActivity;
 import com.xebia.xtime.monthoverview.MonthPagerFragment;
 import com.xebia.xtime.shared.model.DayOverview;
 import com.xebia.xtime.weekoverview.DailyHoursListFragment;
 import com.xebia.xtime.weekoverview.WeekPagerFragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 public class OverviewActivity extends AppCompatActivity implements DailyHoursListFragment.Listener {
 
@@ -80,11 +90,31 @@ public class OverviewActivity extends AppCompatActivity implements DailyHoursLis
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
-            // TODO: logout
+        if (item.getItemId() == R.id.remove_account) {
+            removeAccount();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void removeAccount() {
+        AccountManager accountManager = AccountManager.get(this);
+        Account[] accounts = accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE);
+        // TODO: handle situation when there is more than one account
+        accountManager.removeAccount(accounts[0], new AccountManagerCallback<Boolean>() {
+            @Override
+            public void run(AccountManagerFuture<Boolean> future) {
+                try {
+                    if (future.getResult()) {
+                        // go back to login screen
+                        startActivity(new Intent(OverviewActivity.this, LauncherActivity.class));
+                        finish();
+                    }
+                } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+                    Timber.e(e, "Failed to remove account");
+                }
+            }
+        }, null);
     }
 
     @Override
