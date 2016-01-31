@@ -125,7 +125,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
             showProgress(true);
             mAuthTask = new AuthenticationTask();
-            mUsername = username.trim();
+            mUsername = username.replace("@xebia.com", "").trim();
             mPassword = password.trim();
             mAuthTask.execute(mUsername, mPassword);
         }
