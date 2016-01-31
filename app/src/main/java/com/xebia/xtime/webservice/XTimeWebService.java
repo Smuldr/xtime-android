@@ -84,6 +84,9 @@ public class XTimeWebService {
         while (null != response.priorResponse()) {
             response = response.priorResponse();
         }
+        if (response.header("Location").contains("error")) {
+            return null;
+        }
         for (String cookieHeader : response.headers("Set-Cookie")) {
             if (cookieHeader.startsWith("JSESSIONID")) {
                 HttpUrl url = HttpUrl.parse(baseUri.toString());
