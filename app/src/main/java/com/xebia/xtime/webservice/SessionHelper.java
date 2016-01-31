@@ -1,4 +1,4 @@
-package com.xebia.xtime.shared;
+package com.xebia.xtime.webservice;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -10,14 +10,14 @@ import com.xebia.xtime.authenticator.Authenticator;
 
 import java.io.IOException;
 
-public final class CookieHelper {
+public final class SessionHelper {
 
-    private CookieHelper() {
+    private SessionHelper() {
         // do not instantiate
     }
 
-    public static String getCookie(final Context context) throws AuthenticatorException,
-            OperationCanceledException, IOException {
+    public static String getSessionId(final Context context)
+            throws AuthenticatorException, OperationCanceledException, IOException {
         AccountManager accountManager = AccountManager.get(context);
         Account[] accounts = accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE);
         return (null != accounts && accounts.length > 0)

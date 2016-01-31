@@ -8,13 +8,13 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.xebia.xtime.R;
 import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
 
+import okhttp3.Cookie;
 import timber.log.Timber;
 
 public class Authenticator extends AbstractAccountAuthenticator {
@@ -55,30 +55,30 @@ public class Authenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account,
                                String authTokenType, Bundle options) throws NetworkErrorException {
-        Timber.w("Get auth token for account %s, type: %s", account, authTokenType);
+        Timber.d("Get auth token for account %s, type: %s", account, authTokenType);
 
         String password = AccountManager.get(mContext).getPassword(account);
-        String cookie;
+        Cookie cookie;
         try {
-            Timber.w("Login request: %s, %s", account.name, password);
+            Timber.d("Login request: %s", account.name);
             cookie = XTimeWebService.getInstance().login(account.name, password);
-            Timber.w("Login request result: %s", cookie);
+            Timber.d("Login request result: %s", cookie);
         } catch (IOException e) {
-            Timber.e(e,"Login request failed");
+            Timber.e(e, "Login request failed");
             throw new NetworkErrorException(e);
         }
 
         final Bundle result = new Bundle();
-        if (TextUtils.isEmpty(cookie)) {
-            Timber.d("Could not get auth token");
+        if (null == cookie) {
+            Timber.w("Could not get auth token");
             final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
             intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
             result.putParcelable(AccountManager.KEY_INTENT, intent);
         } else {
-            Timber.d("Return auth token: %s", cookie);
+            Timber.d("Return auth token: %s", cookie.value());
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-            result.putString(AccountManager.KEY_AUTHTOKEN, cookie);
+            result.putString(AccountManager.KEY_AUTHTOKEN, cookie.value());
         }
         return result;
     }

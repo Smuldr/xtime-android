@@ -21,6 +21,7 @@ import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
 
+import okhttp3.Cookie;
 import timber.log.Timber;
 
 /**
@@ -155,7 +156,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 });
     }
 
-    private void finishLogin(String cookie) {
+    private void finishLogin(Cookie cookie) {
 
         // add/update account in account manager
         AccountManager accountManager = AccountManager.get(this);
@@ -165,7 +166,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             // (Not setting the auth token will cause another call to the server to authenticate
             // the user)
             accountManager.addAccountExplicitly(account, mPassword, null);
-            accountManager.setAuthToken(account, Authenticator.AUTH_TYPE, cookie);
+            accountManager.setAuthToken(account, Authenticator.AUTH_TYPE, cookie.value());
             accountManager.setPassword(account, mPassword);
         } else {
             accountManager.setPassword(account, mPassword);
@@ -175,7 +176,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         final Intent res = new Intent();
         res.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
         res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, Authenticator.ACCOUNT_TYPE);
-        res.putExtra(AccountManager.KEY_AUTHTOKEN, cookie);
+        res.putExtra(AccountManager.KEY_AUTHTOKEN, cookie.value());
         res.putExtra(AccountManager.KEY_PASSWORD, mPassword);
         setAccountAuthenticatorResult(res.getExtras());
         setResult(RESULT_OK, res);
@@ -186,20 +187,20 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * Represents an asynchronous login task used to authenticate the user. Expects Strings for
      * username and password as execution parameters.
      */
-    private class AuthenticationTask extends AsyncTask<String, Void, String> {
+    private class AuthenticationTask extends AsyncTask<String, Void, Cookie> {
 
         private Exception mException;
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Cookie doInBackground(String... params) {
             if (null == params || params.length < 2) {
                 return null;
             }
             String username = params[0];
             String password = params[1];
-            String cookie;
+            Cookie cookie;
             try {
-                Timber.d("Login request: %s, %s", username, password);
+                Timber.d("Login request: %s", username);
                 cookie = XTimeWebService.getInstance().login(username, password);
                 Timber.d("Login request result: %s", cookie);
             } catch (IOException e) {
@@ -211,7 +212,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         }
 
         @Override
-        protected void onPostExecute(final String cookie) {
+        protected void onPostExecute(final Cookie cookie) {
             mAuthTask = null;
             showProgress(false);
 
@@ -219,7 +220,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 Toast.makeText(AuthenticatorActivity.this, R.string.error_request_failed,
                         Toast.LENGTH_LONG).show();
 
-            } else if (TextUtils.isEmpty(cookie)) {
+            } else if (null == cookie) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
 

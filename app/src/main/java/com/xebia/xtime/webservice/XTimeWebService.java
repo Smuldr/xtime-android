@@ -1,6 +1,7 @@
 package com.xebia.xtime.webservice;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.xebia.xtime.BuildConfig;
 import com.xebia.xtime.shared.model.Project;
@@ -15,7 +16,11 @@ import com.xebia.xtime.webservice.requestbuilder.WorkTypesForProjectRequestBuild
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -26,13 +31,17 @@ import timber.log.Timber;
 
 public class XTimeWebService {
 
-    private static final XTimeWebService INSTANCE = new XTimeWebService();
-    private final OkHttpClient mHttpClient;
-    private Uri mBaseUri = Uri.parse("https://xtime.xebia.com/xtime");
+    private static XTimeWebService instance;
 
-    private XTimeWebService() {
+    private final OkHttpClient httpClient;
+    private Uri baseUri = Uri.parse("https://xtime.xebia.com/xtime");
+
+    public static void init(@NonNull final CookieJar cookieJar) {
         final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        clientBuilder.cookieJar(new XTimeCookieJar());
+        clientBuilder.cookieJar(cookieJar);
+        clientBuilder.connectTimeout(30, TimeUnit.SECONDS);
+        clientBuilder.readTimeout(30, TimeUnit.SECONDS);
+        clientBuilder.addNetworkInterceptor(new SessionTimeoutInterceptor());
         if (BuildConfig.DEBUG) {
             final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new Logger() {
                 @Override
@@ -40,18 +49,26 @@ public class XTimeWebService {
                     Timber.v(message);
                 }
             });
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
             clientBuilder.addInterceptor(loggingInterceptor);
         }
-        mHttpClient = clientBuilder.build();
+        instance = new XTimeWebService(clientBuilder.build());
     }
 
+    @NonNull
     public static XTimeWebService getInstance() {
-        return INSTANCE;
+        if (null == instance) {
+            throw new RuntimeException("Instance is not initialized yet");
+        }
+        return instance;
+    }
+
+    private XTimeWebService(final OkHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     public void setBaseUrl(final String baseUrl) {
-        mBaseUri = Uri.parse(baseUrl);
+        baseUri = Uri.parse(baseUrl);
     }
 
     /**
@@ -60,17 +77,23 @@ public class XTimeWebService {
      * @return Cookie header value
      * @throws IOException
      */
-    public String login(final String username, final String password) throws IOException {
+    public Cookie login(final String username, final String password) throws IOException {
         Timber.d("Login");
         RequestBody body = new LoginRequestBuilder().username(username).password(password).build();
         Response response = doRequest(body, "j_spring_security_check");
         while (null != response.priorResponse()) {
             response = response.priorResponse();
         }
-        return response.header("Set-Cookie");
+        for (String cookieHeader : response.headers("Set-Cookie")) {
+            if (cookieHeader.startsWith("JSESSIONID")) {
+                HttpUrl url = HttpUrl.parse(baseUri.toString());
+                return Cookie.parse(url, cookieHeader);
+            }
+        }
+        return null;
     }
 
-    public String getMonthOverview(final Date month, final String cookie) throws IOException {
+    public String getMonthOverview(final Date month) throws IOException {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(month);
@@ -78,11 +101,11 @@ public class XTimeWebService {
         }
         RequestBody body = new GetMonthOverviewRequestBuilder().month(month).build();
         Response response = doRequest(body, "dwr/call/plaincall/" +
-                "TimeEntryServiceBean.getMonthOverview.dwr", cookie);
+                "TimeEntryServiceBean.getMonthOverview.dwr");
         return response.isSuccessful() ? response.body().string() : null;
     }
 
-    public String getWeekOverview(final Date week, final String cookie) throws IOException {
+    public String getWeekOverview(final Date week) throws IOException {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(week);
@@ -90,19 +113,18 @@ public class XTimeWebService {
         }
         RequestBody body = new GetWeekOverviewRequestBuilder().week(week).build();
         Response response = doRequest(body, "dwr/call/plaincall/" +
-                "TimeEntryServiceBean.getWeekOverview.dwr", cookie);
+                "TimeEntryServiceBean.getWeekOverview.dwr");
         return response.isSuccessful() ? response.body().string() : null;
     }
 
-    public boolean approveMonth(final double grandTotal, final Date month,
-                                final String cookie) throws IOException {
+    public boolean approveMonth(final double grandTotal, final Date month) throws IOException {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(month);
             Timber.d("Approve month %s", (calendar.get(Calendar.MONTH) + 1));
         }
         RequestBody body = new ApproveRequestBuilder().grandTotal(grandTotal).month(month).build();
-        Response response = doRequest(body, "monthlyApprove.html", cookie);
+        Response response = doRequest(body, "monthlyApprove.html");
         while (null != response.priorResponse()) {
             response = response.priorResponse();
         }
@@ -110,8 +132,7 @@ public class XTimeWebService {
         return locationHeader != null && !locationHeader.contains("error");
     }
 
-    public String getWorkTypesForProject(final Project project, final Date week,
-                                         final String cookie) throws IOException {
+    public String getWorkTypesForProject(final Project project, final Date week) throws IOException {
         if (BuildConfig.DEBUG) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(week);
@@ -120,11 +141,11 @@ public class XTimeWebService {
         RequestBody body = new WorkTypesForProjectRequestBuilder().project(project).week(week)
                 .build();
         Response response = doRequest(body, "dwr/call/plaincall/"
-                + "TimeEntryServiceBean.getWorkTypesListForProjectInRange.dwr", cookie);
+                + "TimeEntryServiceBean.getWorkTypesListForProjectInRange.dwr");
         return response.isSuccessful() ? response.body().string() : null;
     }
 
-    public String deleteEntry(final TimeSheetEntry timeEntry, final String cookie) throws IOException {
+    public String deleteEntry(final TimeSheetEntry timeEntry) throws IOException {
         if (BuildConfig.DEBUG) {
             Timber.d("Delete entry %s", timeEntry);
         }
@@ -134,21 +155,15 @@ public class XTimeWebService {
                 .description(timeEntry.getDescription())
                 .entryDate(timeEntry.getTimeCell().getEntryDate()).build();
         Response response = doRequest(body, "dwr/call/plaincall/"
-                + "TimeEntryServiceBean.deleteTimeSheetEntries.dwr", cookie);
+                + "TimeEntryServiceBean.deleteTimeSheetEntries.dwr");
         return response.isSuccessful() ? response.body().string() : null;
     }
 
     private Response doRequest(final RequestBody body, final String path) throws IOException {
-        return doRequest(body, path, "");
-    }
-
-    private Response doRequest(final RequestBody body, final String path,
-                               final String cookie) throws IOException {
-        Request request = new Request.Builder()
-                .url(mBaseUri.buildUpon().appendEncodedPath(path).build().toString())
+        final Request request = new Request.Builder()
+                .url(baseUri.buildUpon().appendEncodedPath(path).build().toString())
                 .post(body)
-                .header("Cookie", cookie != null ? cookie : "")
                 .build();
-        return mHttpClient.newCall(request).execute();
+        return httpClient.newCall(request).execute();
     }
 }

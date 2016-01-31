@@ -12,6 +12,7 @@ import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.util.Date;
 
+import okhttp3.Cookie;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -26,6 +27,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
         super.setUp();
         mServer = new MockWebServer();
         mServer.start();
+        XTimeWebService.init(new MockCookieJar());
         mWebService = XTimeWebService.getInstance();
         mWebService.setBaseUrl(mServer.url("/xtime/").toString());
         mContext = getInstrumentation().getContext();
@@ -37,8 +39,8 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
     }
 
     public void testLogin() throws Exception {
-        final String cookie = "JSESSIONID=BEEF38177C0CA25A303951D5944A7A5B;"
-                + " Path=/xtime/; Secure; HttpOnly";
+        final Cookie cookie = Cookie.parse(mServer.url("/xtime/entryform.html"),
+                "JSESSIONID=BEEF38177C0CA25A303951D5944A7A5B; Path=/xtime/; Secure; HttpOnly");
         mServer.enqueue(new MockResponse()
                 .setResponseCode(302)
                 .setHeader("Set-Cookie", cookie)
@@ -46,10 +48,10 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
         mServer.enqueue(new MockResponse()
                 .setResponseCode(200));
 
-        String result = mWebService.login("foo", "bar");
+        Cookie result = mWebService.login("foo", "bar");
         RecordedRequest request = mServer.takeRequest();
 
-        assertEquals(cookie, result);
+        assertEquals(cookie.toString(), result.toString());
         assertEquals("j_username=foo&j_password=bar", request.getBody().readUtf8());
         assertEquals("application/x-www-form-urlencoded; charset=utf-8",
                 request.getHeader("Content-Type"));
@@ -61,7 +63,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 .setResponseCode(200)
                 .setBody(mockResponse));
 
-        String result = mWebService.getMonthOverview(new Date(1388588275000l), "cookie");
+        String result = mWebService.getMonthOverview(new Date(1388588275000l));
         RecordedRequest request = mServer.takeRequest();
 
         assertEquals(mockResponse, result);
@@ -75,7 +77,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 + "c0-param0=string:2014-01-01\n"
                 + "batchId=0", request.getBody().readUtf8());
         assertEquals("text/plain; charset=utf-8", request.getHeader("Content-Type"));
-        assertEquals("cookie", request.getHeader("Cookie"));
+        assertEquals(MockCookieJar.COOKIE_VALUE, request.getHeader("Cookie"));
     }
 
     public void testGetWeekOverview() throws Exception {
@@ -84,7 +86,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 .setResponseCode(200)
                 .setBody(mockResponse));
 
-        String result = mWebService.getWeekOverview(new Date(1388588275000l), "cookie");
+        String result = mWebService.getWeekOverview(new Date(1388588275000l));
         RecordedRequest request = mServer.takeRequest();
 
         assertEquals(mockResponse, result);
@@ -99,7 +101,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 + "c0-param1=boolean:true\n"
                 + "batchId=0\n", request.getBody().readUtf8());
         assertEquals("text/plain; charset=utf-8", request.getHeader("Content-Type"));
-        assertEquals("cookie", request.getHeader("Cookie"));
+        assertEquals(MockCookieJar.COOKIE_VALUE, request.getHeader("Cookie"));
     }
 
     public void testGetWorkTypesForProject() throws Exception {
@@ -109,7 +111,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 .setBody(mockResponse));
         Project project = new Project("31415", "some project name");
         Date week = new Date(1426287600000l); // Sat, 14 Mar 2015, 0:00:00 CET
-        String result = mWebService.getWorkTypesForProject(project, week, "cookie");
+        String result = mWebService.getWorkTypesForProject(project, week);
         RecordedRequest request = mServer.takeRequest();
 
         assertEquals(mockResponse, result);
@@ -125,7 +127,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 + "c0-param2=boolean:true\n"
                 + "batchId=0", request.getBody().readUtf8());
         assertEquals("text/plain; charset=utf-8", request.getHeader("Content-Type"));
-        assertEquals("cookie", request.getHeader("Cookie"));
+        assertEquals(MockCookieJar.COOKIE_VALUE, request.getHeader("Cookie"));
     }
 
     public void testApproveMonth() throws Exception {
@@ -135,7 +137,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
         mServer.enqueue(new MockResponse()
                 .setResponseCode(200));
 
-        boolean result = mWebService.approveMonth(67, new Date(1388588275000l), "cookie");
+        boolean result = mWebService.approveMonth(67, new Date(1388588275000l));
         RecordedRequest request = mServer.takeRequest();
 
         assertTrue(result);
@@ -143,7 +145,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 request.getBody().readUtf8());
         assertEquals("application/x-www-form-urlencoded; charset=utf-8",
                 request.getHeader("Content-Type"));
-        assertEquals("cookie", request.getHeader("Cookie"));
+        assertEquals(MockCookieJar.COOKIE_VALUE, request.getHeader("Cookie"));
     }
 
     public void testDeleteTimeEntry() throws Exception {
@@ -154,7 +156,7 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
         Date date = new Date(1426287600000l); // Sat, 14 Mar 2015, 0:00:00 CET
         TimeSheetEntry timeEntry = new TimeSheetEntry(new Project("1", "foo"),
                 new WorkType("940", "bar"), "description", new TimeCell(date, 8, false));
-        String result = mWebService.deleteEntry(timeEntry, "cookie");
+        String result = mWebService.deleteEntry(timeEntry);
         RecordedRequest request = mServer.takeRequest();
 
         assertEquals(mockResponse, result);
@@ -171,6 +173,6 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 + "c0-param3=string:2015-03-14\n"
                 + "batchId=0", request.getBody().readUtf8());
         assertEquals("text/plain; charset=utf-8", request.getHeader("Content-Type"));
-        assertEquals("cookie", request.getHeader("Cookie"));
+        assertEquals(MockCookieJar.COOKIE_VALUE, request.getHeader("Cookie"));
     }
 }
