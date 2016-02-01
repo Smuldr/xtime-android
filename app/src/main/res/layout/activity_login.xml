@@ -1,31 +1,43 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.xebia.xtime.authenticator.AuthenticatorActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <!-- Login progress -->
     <LinearLayout
         android:id="@+id/login_status"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/login_status_message"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:fontFamily="sans-serif-light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/login_progress_signing_in" />
+            android:fontFamily="sans-serif-light"
+            android:text="@string/login_progress_signing_in"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
     </LinearLayout>
 
     <!-- Login form -->
@@ -40,36 +52,36 @@
 
             <EditText
                 android:id="@+id/username"
-                android:singleLine="true"
-                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/prompt_username"
                 android:inputType="textEmailAddress"
-                android:hint="@string/prompt_username" />
+                android:maxLines="1"
+                android:singleLine="true"/>
 
             <EditText
                 android:id="@+id/password"
-                android:singleLine="true"
-                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
-                android:inputType="textPassword"
-                android:imeActionLabel="@string/action_sign_in"
                 android:imeActionId="@+id/login"
-                android:imeOptions="actionUnspecified" />
+                android:imeActionLabel="@string/action_sign_in"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
             <Button
                 android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right|end"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:layout_gravity="right" />
+                android:text="@string/action_sign_in"/>
 
         </LinearLayout>
 
     </ScrollView>
-</merge>
+</LinearLayout>

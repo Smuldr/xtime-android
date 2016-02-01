@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,12 +61,12 @@ public class DailyHoursListAdapter extends ArrayAdapter<DayOverview> {
             hoursView.setText(NumberFormat.getNumberInstance().format(item.getTotalHours()));
             approvedView.setVisibility(item.isEditable() ? View.GONE : View.VISIBLE);
             if (DateUtils.isToday(date.getTime())) {
-                row.setBackgroundResource(R.drawable.ab_solid_xebia);
+                row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.accent));
                 dateView.setTextColor(Color.WHITE);
                 hoursView.setTextColor(Color.WHITE);
                 hoursLabelView.setTextColor(Color.WHITE);
             } else if (date.getTime() > new Date().getTime()) {
-                row.setBackgroundResource(0);
+                row.setBackgroundColor(0);
                 dateView.setTextColor(Color.GRAY);
                 hoursView.setTextColor(Color.GRAY);
                 hoursLabelView.setTextColor(Color.GRAY);

@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xebia.xtime"
-    android:versionCode="1401181440"
-    android:versionName="1.0.1">
+<manifest package="com.xebia.xtime"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="1401181440"
+          android:versionName="1.0.1">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
 
     <application
         android:name=".XTimeApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_xebia"
+        android:icon="@mipmap/ic_launcher_xtime"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Xebia">
+        android:theme="@style/Theme.XTime">
         <activity android:name=".LauncherActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".OverviewActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"/>
         <activity
             android:name=".dayoverview.DayOverviewActivity"
-            android:label="@string/title_activity_day_overview" />
+            android:label="@string/title_activity_day_overview"/>
         <activity
             android:name=".editor.EditTimeSheetActivity"
-            android:label="@string/title_activity_edit_time_cell" />
+            android:label="@string/title_activity_edit_time_cell"/>
         <activity
             android:name=".authenticator.AuthenticatorActivity"
-            android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" />
+            android:label="@string/title_activity_login"/>
 
         <service
             android:name=".authenticator.AuthenticatorService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                android:resource="@xml/authenticator"/>
         </service>
     </application>
 

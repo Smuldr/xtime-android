@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.xebia.xtime.R;
 import com.xebia.xtime.shared.model.Project;
@@ -42,6 +43,11 @@ public class EditTimeSheetActivity extends AppCompatActivity implements EditTime
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_container);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (null != toolbar) {
+            setSupportActionBar(toolbar);
+        }
 
         Date date = new Date(getIntent().getLongExtra(EXTRA_DATE, -1));
         if (date.getTime() < 0) {

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -77,6 +78,11 @@ public class AuthenticatorActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_login);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (null != toolbar) {
+            setSupportActionBar(toolbar);
+        }
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);

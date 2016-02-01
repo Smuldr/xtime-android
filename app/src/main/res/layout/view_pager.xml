@@ -13,7 +13,7 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:layout_gravity="top"
-        android:background="@drawable/ab_stacked_solid_xebia"
+        android:background="@color/primary"
         android:textColor="#eee"/>
 
 </android.support.v4.view.ViewPager>

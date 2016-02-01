@@ -1,11 +1,9 @@
 package com.xebia.xtime.weekoverview;
 
-import android.app.Activity;
-import android.database.Cursor;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -25,8 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import timber.log.Timber;
-
 /**
  * Fragment that represents a week as a list of days.
  * <p/>
@@ -36,8 +32,8 @@ import timber.log.Timber;
  * Each row shows the total amount of work that has been registered for that day. Clicking on a
  * day should open up the day details.
  */
-public class DailyHoursListFragment extends ListFragment implements LoaderManager
-        .LoaderCallbacks<XTimeOverview> {
+public class DailyHoursListFragment extends ListFragment
+        implements LoaderManager.LoaderCallbacks<XTimeOverview> {
 
     private static final String ARG_START_DATE = "start_date";
     private Date mStartDate;
@@ -84,13 +80,13 @@ public class DailyHoursListFragment extends ListFragment implements LoaderManage
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (Listener) activity;
+            mListener = (Listener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement " +
-                    "DailyHoursListFragment.Listener");
+            throw new ClassCastException(context
+                    + " must implement DailyHoursListFragment.Listener");
         }
     }
 
@@ -118,7 +114,7 @@ public class DailyHoursListFragment extends ListFragment implements LoaderManage
 
     private void updateList() {
         if (null == mDays) {
-            mDays = new ArrayList<DayOverview>();
+            mDays = new ArrayList<>();
             setListAdapter(new DailyHoursListAdapter(getActivity(), mDays));
         } else {
             mDays.clear();

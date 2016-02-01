@@ -43,4 +43,6 @@
     <string name="toast_approve_failure">Approval failed!</string>
     <string name="approve_confirm_msg">Are you sure you want to approve this month\'s time sheet?</string>
     <string name="approve_confirm_title">Confirm approval</string>
+    <string name="open">open navigation drawer</string>
+    <string name="close">close navigation drawer</string>
 </resources>
