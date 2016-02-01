@@ -11,6 +11,7 @@ import com.xebia.xtime.webservice.requestbuilder.DeleteEntryRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.GetMonthOverviewRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.GetWeekOverviewRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.LoginRequestBuilder;
+import com.xebia.xtime.webservice.requestbuilder.SaveEntryRequestBuilder;
 import com.xebia.xtime.webservice.requestbuilder.WorkTypesForProjectRequestBuilder;
 
 import java.io.IOException;
@@ -146,6 +147,19 @@ public class XTimeWebService {
         Response response = doRequest(body, "dwr/call/plaincall/"
                 + "TimeEntryServiceBean.getWorkTypesListForProjectInRange.dwr");
         return response.isSuccessful() ? response.body().string() : null;
+    }
+
+    public boolean saveEntry(final TimeSheetEntry timeEntry) throws IOException {
+        Timber.d("Save entry %s", timeEntry);
+        RequestBody body = new SaveEntryRequestBuilder()
+                .timeSheetEntry(timeEntry)
+                .build();
+        Response response = doRequest(body, "entryform.html");
+        while (null != response.priorResponse()) {
+            response = response.priorResponse();
+        }
+        String locationHeader = response.header("Location");
+        return locationHeader != null && !locationHeader.contains("error");
     }
 
     public String deleteEntry(final TimeSheetEntry timeEntry) throws IOException {

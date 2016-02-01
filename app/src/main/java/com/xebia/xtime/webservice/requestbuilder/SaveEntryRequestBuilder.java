@@ -1,6 +1,5 @@
-package com.xebia.xtime.editor.save;
+package com.xebia.xtime.webservice.requestbuilder;
 
-import com.xebia.xtime.shared.XTimeRequest;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
 
 import java.io.UnsupportedEncodingException;
@@ -12,22 +11,22 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class SaveTimeSheetRequest extends XTimeRequest {
+import okhttp3.RequestBody;
 
-    private static final String XTIME_URL = "https://xtime.xebia.com/xtime/entryform.html";
-    private final TimeSheetEntry mTimeSheetEntry;
+public class SaveEntryRequestBuilder {
 
-    public SaveTimeSheetRequest(TimeSheetEntry timeSheetEntry) {
+    private TimeSheetEntry mTimeSheetEntry;
+
+    public SaveEntryRequestBuilder timeSheetEntry(TimeSheetEntry timeSheetEntry) {
         mTimeSheetEntry = timeSheetEntry;
+        return this;
     }
 
-    @Override
-    public String getContentType() {
-        return CONTENT_TYPE_FORM;
+    public RequestBody build() {
+        return RequestBody.create(MediaTypes.FORM_URLENCODED, getRequestData());
     }
 
-    @Override
-    public String getRequestData() {
+    private String getRequestData() {
 
         String data = "";
 
@@ -97,10 +96,5 @@ public class SaveTimeSheetRequest extends XTimeRequest {
                 "&buttonClicked=save";
 
         return data;
-    }
-
-    @Override
-    public String getUrl() {
-        return XTIME_URL;
     }
 }

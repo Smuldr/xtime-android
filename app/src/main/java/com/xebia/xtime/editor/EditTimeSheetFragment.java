@@ -2,9 +2,9 @@ package com.xebia.xtime.editor;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,6 +28,7 @@ import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeCell;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
 import com.xebia.xtime.shared.model.WorkType;
+import com.xebia.xtime.webservice.requestbuilder.SaveEntryRequestBuilder;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ import timber.log.Timber;
  * using an AsyncTaskLoader. The list of projects is predefined.
  * <p/>
  * The action bar contains an option to save the changes, which triggers an AsyncTask that sends
- * a {@link com.xebia.xtime.editor.save.SaveTimeSheetRequest} to the XTime backend. When the task
+ * a {@link SaveEntryRequestBuilder} to the XTime backend. When the task
  * finishes,
  * the parent activity is notified.
  */
@@ -318,12 +319,12 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
                 String description = ("" + mDescriptionView.getText()).trim();
                 TimeCell timeCell = new TimeCell(mDate, time, false);
                 mSaveEntry = new TimeSheetEntry(project, workType, description, timeCell);
-                new SaveEntryTask(this).execute(mSaveEntry);
+                new SaveEntryTask(getActivity(), this).execute(mSaveEntry);
             } else {
                 // only the time can be changed for existing time sheet entries
                 mSaveEntry = mTimeSheetEntry;
                 mSaveEntry.getTimeCell().setHours(time);
-                new SaveEntryTask(this).execute(mSaveEntry);
+                new SaveEntryTask(getActivity(), this).execute(mSaveEntry);
             }
         }
     }
@@ -391,13 +392,13 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (Listener) activity;
+            mListener = (Listener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement " +
-                    "EditTimeSheetFragment.Listener");
+            throw new ClassCastException(context
+                    + " must implement EditTimeSheetFragment.Listener");
         }
     }
 
@@ -414,11 +415,11 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
         /**
          * @param entry The entry that was updated.
          */
-        public abstract void onEntryUpdate(TimeSheetEntry entry);
+        void onEntryUpdate(TimeSheetEntry entry);
 
         /**
          * @param entry The entry that was deleted.
          */
-        public abstract void onEntryDelete(TimeSheetEntry entry);
+        void onEntryDelete(TimeSheetEntry entry);
     }
 }

@@ -133,7 +133,8 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
     public void testApproveMonth() throws Exception {
         mServer.enqueue(new MockResponse()
                 .setResponseCode(302)
-                .setHeader("Location", mServer.url("/xtime/monthlyApproveConfirmation.html").toString()));
+                .setHeader("Location", mServer.url("/xtime/monthlyApproveConfirmation.html")
+                        .toString()));
         mServer.enqueue(new MockResponse()
                 .setResponseCode(200));
 
@@ -174,5 +175,44 @@ public class XTimeWebServiceTest extends InstrumentationTestCase {
                 + "batchId=0", request.getBody().readUtf8());
         assertEquals("text/plain; charset=utf-8", request.getHeader("Content-Type"));
         assertEquals(MockCookieJar.COOKIE_VALUE, request.getHeader("Cookie"));
+    }
+
+    public void testSaveEntry() throws Exception {
+        mServer.enqueue(new MockResponse()
+                .setResponseCode(302)
+                .setHeader("Location", mServer.url("/xtime/entryform.html").toString()));
+        mServer.enqueue(new MockResponse().setResponseCode(200));
+        // request to write 3.14 hours on some project on pi day
+        Project project = new Project("42", "some project name");
+        WorkType workType = new WorkType("100", "some work description");
+        String description = "foo bar";
+        Date date = new Date(1426287600000l); // Sat, 14 Mar 2015, 0:00:00 CET
+        TimeCell timeCell = new TimeCell(date, 3.14, false);
+        TimeSheetEntry timeEntry = new TimeSheetEntry(project, workType, description, timeCell);
+
+        Boolean result = mWebService.saveEntry(timeEntry);
+        RecordedRequest request = mServer.takeRequest();
+
+        assertTrue(result);
+        assertEquals("startDate=9+Mar+2015&endDate=15+Mar+2015" +
+                "&weekDates=2015-03-09&weekDates=2015-03-10&weekDates=2015-03-11" +
+                "&weekDates=2015-03-12&weekDates=2015-03-13&weekDates=2015-03-14" +
+                "&weekDates=2015-03-15" +
+                "&projectId=42&workType=100&description=foo+bar" +
+                "&monday=&tuesday=&wednesday=&thursday=&friday=&saturday=3.14&sunday=" +
+                "&weekTotal1=3.14&projectId=&workType=&description=" +
+                "&monday=&tuesday=&wednesday=&thursday=&friday=&saturday=&sunday=" +
+                "&weekTotal1=&projectId=&workType=&description=" +
+                "&monday=&tuesday=&wednesday=&thursday=&friday=&saturday=&sunday=" +
+                "&weekTotal1=&projectId=&workType=&description=" +
+                "&monday=&tuesday=&wednesday=&thursday=&friday=&saturday=&sunday=" +
+                "&weekTotal1=&projectId=&workType=&description=" +
+                "&monday=&tuesday=&wednesday=&thursday=&friday=&saturday=&sunday=" +
+                "&weekTotal1=&dayTotal1=&dayTotal2=&dayTotal3=" +
+                "&dayTotal4=&dayTotal5=&dayTotal6=3.14&dayTotal7=" +
+                "&grandTotal=3.14&buttonClicked=save",
+                request.getBody().readUtf8());
+        assertEquals("application/x-www-form-urlencoded; charset=utf-8",
+                request.getHeader("Content-Type"));
     }
 }
