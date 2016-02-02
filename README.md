@@ -18,6 +18,6 @@ Android client for the [Xebia Time Tracking System](https://xtime.xebia.com/).
 - `misc/signing/` Files related to signing releases
 - `misc/xtime api/` Some snapshots of XTime DWR requests and responses
 
-## Theme Generator
+## Attributions
 
-The theme for this app was generated using the Jeff Gilfelt's [Android Action Bar Style Generator](http://jgilfelt.github.io/android-actionbarstylegenerator/).
+Launcher icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com) is licensed under [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
