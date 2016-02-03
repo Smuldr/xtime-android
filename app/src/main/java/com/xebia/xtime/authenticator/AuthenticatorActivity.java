@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xebia.xtime.R;
+import com.xebia.xtime.shared.StatusBarColorHelper;
 import com.xebia.xtime.webservice.XTimeWebService;
 
 import java.io.IOException;
@@ -69,6 +70,8 @@ public class AuthenticatorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        StatusBarColorHelper.setStatusBarColor(this);
+        setContentView(R.layout.activity_login);
 
         mAccountAuthenticatorResponse =
                 getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
@@ -76,8 +79,6 @@ public class AuthenticatorActivity extends AppCompatActivity {
         if (mAccountAuthenticatorResponse != null) {
             mAccountAuthenticatorResponse.onRequestContinued();
         }
-
-        setContentView(R.layout.activity_login);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (null != toolbar) {
