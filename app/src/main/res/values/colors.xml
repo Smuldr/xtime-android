@@ -9,4 +9,7 @@
     <color name="primaryDark">@color/xebia_purple</color>
     <color name="accent">@color/xebia_yellow</color>
 
+    <color name="drawer_menu_background">@color/primary</color>
+    <color name="drawer_menu_text">@android:color/primary_text_dark</color>
+
 </resources>

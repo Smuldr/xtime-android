@@ -21,3 +21,5 @@ Android client for the [Xebia Time Tracking System](https://xtime.xebia.com/).
 ## Attributions
 
 Launcher icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com) is licensed under [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+
+[Google Material Design icons](https://design.google.com/icons/) are licensed under [Creative Commons BY 4.0](http://creativecommons.org/licenses/by/4.0/).

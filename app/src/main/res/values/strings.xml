@@ -45,4 +45,5 @@
     <string name="approve_confirm_title">Confirm approval</string>
     <string name="open">open navigation drawer</string>
     <string name="close">close navigation drawer</string>
+    <string name="descr_logo">logo</string>
 </resources>
