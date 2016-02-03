@@ -6,13 +6,14 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 import com.xebia.xtime.R;
 import com.xebia.xtime.editor.EditTimeSheetActivity;
+import com.xebia.xtime.shared.StatusBarColorHelper;
 import com.xebia.xtime.shared.model.DayOverview;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
@@ -43,7 +44,8 @@ public class DayOverviewActivity extends AppCompatActivity implements DailyTimeS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.empty_container);
+        StatusBarColorHelper.setStatusBarColor(this);
+        setContentView(R.layout.activity_day_overview);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (null != toolbar) {
@@ -65,26 +67,16 @@ public class DayOverviewActivity extends AppCompatActivity implements DailyTimeS
             tx.replace(R.id.content, fragment, "tag");
             tx.commit();
         }
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startEditor(null, REQ_CODE_CREATE);
+            }
+        });
 
         // set up the title
         setTitle(getDayTitle());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (mOverview.isEditable()) {
-            getMenuInflater().inflate(R.menu.menu_day_overview, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.newItem) {
-            startEditor(null, REQ_CODE_CREATE);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

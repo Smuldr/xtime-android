@@ -4,13 +4,8 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".editor.EditTimeCellActivity">
     <item
-        android:id="@+id/save"
-        android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/action_save"
-        app:showAsAction="ifRoom|withText"/>
-    <item
         android:id="@+id/delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_delete"
         android:title="@string/action_delete"
         app:showAsAction="ifRoom|withText"/>
 </menu>

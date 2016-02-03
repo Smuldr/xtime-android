@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.xebia.xtime.R;
+import com.xebia.xtime.shared.StatusBarColorHelper;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
 
@@ -19,7 +20,8 @@ import java.util.Date;
  * When the activity is created, it checks the {@link #EXTRA_TIME_SHEET} Intent extra for a time
  * sheet entry to edit. If the time sheet is not present, a new one will be created.
  */
-public class EditTimeSheetActivity extends AppCompatActivity implements EditTimeSheetFragment.Listener {
+public class EditTimeSheetActivity extends AppCompatActivity
+        implements EditTimeSheetFragment.Listener {
 
     /**
      * Key for intent extra that contains the list of projects
@@ -42,7 +44,8 @@ public class EditTimeSheetActivity extends AppCompatActivity implements EditTime
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.empty_container);
+        StatusBarColorHelper.setStatusBarColor(this);
+        setContentView(R.layout.activity_editor);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (null != toolbar) {

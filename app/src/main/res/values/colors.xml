@@ -5,7 +5,7 @@
     <color name="xebia_purple">#ff611c4b</color>
     <color name="xebia_purpleLight">#ff752c5e</color>
 
-    <color name="primary">@color/xebia_purple</color>
+    <color name="primary">@color/xebia_purpleLight</color>
     <color name="primaryDark">@color/xebia_purple</color>
     <color name="accent">@color/xebia_yellow</color>
 

@@ -1,7 +1,7 @@
 package com.xebia.xtime.dayoverview;
 
-import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -69,13 +69,13 @@ public class DailyTimeSheetFragment extends ListFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (Listener) activity;
+            mListener = (Listener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement " +
-                    "DailyTimeSheetFragment.Listener");
+            throw new ClassCastException(context.toString() +
+                    " must implement DailyTimeSheetFragment.Listener");
         }
     }
 
@@ -89,6 +89,6 @@ public class DailyTimeSheetFragment extends ListFragment {
      * Interface for handling clicks on the list of TimeSheetEntries
      */
     public interface Listener {
-        public abstract void onTimeSheetEntrySelected(TimeSheetEntry selected);
+        void onTimeSheetEntrySelected(TimeSheetEntry selected);
     }
 }

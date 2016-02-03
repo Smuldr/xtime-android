@@ -7,6 +7,7 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -135,6 +136,7 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
         mTimeView = (EditText) rootView.findViewById(R.id.time);
 
         // set up the views
+        initSaveButton(rootView);
         initProjectView();
         initWorkTypeView();
         if (null != mTimeSheetEntry) {
@@ -145,6 +147,16 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
         }
 
         return rootView;
+    }
+
+    private void initSaveButton(final View rootView) {
+        final FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onSaveClick();
+            }
+        });
     }
 
     private void initWorkTypeView() {
@@ -229,16 +241,11 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                onSaveClick();
-                return true;
-            case R.id.delete:
-                onDeleteClick();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.delete) {
+            onDeleteClick();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

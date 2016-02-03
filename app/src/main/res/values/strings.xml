@@ -20,14 +20,12 @@
     <!-- day overview activity -->
     <string name="title_activity_day_overview">Day Overview</string>
     <string name="empty_day_overview">Empty time sheet</string>
-    <string name="action_new">New</string>
     <!-- Strings related to time cell editor -->
     <string name="title_activity_edit_time_cell">Edit</string>
     <string name="editor_project_label">Project:</string>
     <string name="editor_descr_label">Description:</string>
     <string name="editor_work_type_label">Work type:</string>
     <string name="editor_time_label">Time:</string>
-    <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="error_invalid_time">Please enter a valid time</string>
     <string name="toast_save_fail">Request failed</string>
