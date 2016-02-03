@@ -48,9 +48,12 @@ public class TimeSheetRowAdapter extends ArrayAdapter<TimeSheetRow> {
             workTypeView.setText(item.getWorkType().getDescription());
 
             TextView descriptionView = (TextView) row.findViewById(R.id.description);
+            TextView descriptionPlaceholder = (TextView) row.findViewById(R.id.description_placeholder);
             descriptionView.setText(item.getDescription());
-            descriptionView.setVisibility(TextUtils.isEmpty(item.getDescription()) ? View.GONE :
-                    View.VISIBLE);
+            boolean hasDescription = TextUtils.isEmpty(item.getDescription());
+            descriptionView.setVisibility(hasDescription ? View.GONE : View.VISIBLE);
+            descriptionPlaceholder.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
+
 
             TextView hoursView = (TextView) row.findViewById(R.id.hours);
             double hours = TimeSheetUtils.getTotalHours(item);

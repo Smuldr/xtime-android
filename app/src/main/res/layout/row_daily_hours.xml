@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    style="@style/ListItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -14,18 +15,15 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sat 14 Mar"
-        tools:ignore="HardcodedText"/>
+        tools:text="Sat 14 March"/>
 
     <TextView
         android:id="@+id/hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="3.25"
-        tools:ignore="HardcodedText"/>
+        tools:text="3.25"/>
 
     <TextView
         android:id="@+id/hours_label"
@@ -42,7 +40,6 @@
         android:contentDescription="@string/approved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
         android:visibility="gone"/>
 
 </LinearLayout>

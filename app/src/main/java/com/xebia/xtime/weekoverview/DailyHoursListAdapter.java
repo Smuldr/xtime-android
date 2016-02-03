@@ -79,7 +79,7 @@ public class DailyHoursListAdapter extends ArrayAdapter<DayOverview> {
     @TargetApi(18)
     private DateFormat getDateFormat() {
         Locale locale = Locale.getDefault();
-        String pattern = "EEE d MMM";
+        String pattern = "EEE d MMMM";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, pattern);
         }

@@ -3,13 +3,11 @@ package com.xebia.xtime.monthoverview;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,7 +34,11 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     private XTimeOverview mOverview;
     private List<TimeSheetRow> mRows;
     private Date mMonth;
-    private View mFooterView;
+
+    private View footerView;
+    private FloatingActionButton approveButton;
+    private View summaryView;
+    private View progressBar;
 
     public MonthSummaryFragment() {
         // Required empty public constructor
@@ -72,17 +74,18 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     }
 
     private void showGrandTotal() {
-        mFooterView.setVisibility(null != mRows && mRows.size() > 0 ? View.VISIBLE : View.GONE);
+        footerView.setVisibility(null != mRows && mRows.size() > 0 ? View.VISIBLE : View.GONE);
         if (null != mOverview) {
             double grandTotal = TimeSheetUtils.getGrandTotalHours(mOverview);
-            ((TextView) mFooterView.findViewById(R.id.grand_total)).setText(NumberFormat
+            ((TextView) footerView.findViewById(R.id.grand_total)).setText(NumberFormat
                     .getNumberInstance().format(grandTotal));
         }
     }
 
     private void showApproveButton() {
         // only show options menu if the monthly data is not approved yet
-        setHasOptionsMenu(null != mOverview && !mOverview.isMonthlyDataApproved());
+        approveButton.setVisibility(null != mOverview && !mOverview.isMonthlyDataApproved() ?
+                View.VISIBLE : View.GONE);
     }
 
     private void onApproveClick() {
@@ -111,8 +114,18 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mFooterView = inflater.inflate(R.layout.row_grand_total, null, false);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        footerView = inflater.inflate(R.layout.row_grand_total, null, false);
+        View rootView = inflater.inflate(R.layout.fragment_month_summary, container, false);
+        approveButton = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        approveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onApproveClick();
+            }
+        });
+        summaryView = rootView.findViewById(R.id.summary);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        return rootView;
     }
 
     @Override
@@ -126,27 +139,16 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
             throw new NullPointerException("Missing ARG_MONTH argument");
         }
 
-        getListView().addFooterView(mFooterView);
-
-        setEmptyText(getText(R.string.empty_month_summary));
+        getListView().addFooterView(footerView);
 
         // start loading the month overview
+        showProgressIndicator(true);
         getLoaderManager().initLoader(0, null, this);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.month_summary, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.approve) {
-            onApproveClick();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private void showProgressIndicator(final boolean show) {
+        summaryView.setVisibility(show ? View.GONE : View.VISIBLE);
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -155,20 +157,15 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     }
 
     @Override
-    public void onLoadFinished(Loader<XTimeOverview> monthOverviewLoader, XTimeOverview XTimeOverview) {
+    public void onLoadFinished(Loader<XTimeOverview> monthOverviewLoader,
+                               XTimeOverview XTimeOverview) {
         mOverview = XTimeOverview;
+        showProgressIndicator(false);
         showList();
     }
 
     @Override
     public void onLoaderReset(Loader<XTimeOverview> weekOverviewLoader) {
         // nothing to do
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        // make sure the options menu does not keep showing the 'approve' item
-        setHasOptionsMenu(false);
     }
 }

@@ -36,6 +36,7 @@ public class DailyTimeSheetListAdapter extends ArrayAdapter<TimeSheetEntry> {
             TextView projectView = (TextView) row.findViewById(R.id.project);
             TextView workTypeView = (TextView) row.findViewById(R.id.work_type);
             TextView descriptionView = (TextView) row.findViewById(R.id.description);
+            TextView descriptionPlaceholder = (TextView) row.findViewById(R.id.description_placeholder);
             TextView hoursView = (TextView) row.findViewById(R.id.hours);
 
             // update the view content
@@ -46,8 +47,10 @@ public class DailyTimeSheetListAdapter extends ArrayAdapter<TimeSheetEntry> {
             double hours = item.getTimeCell().getHours();
             hoursView.setText(NumberFormat.getNumberInstance().format(hours));
 
-            descriptionView.setVisibility(TextUtils.isEmpty(item.getDescription()) ? View.GONE :
-                    View.VISIBLE);
+            descriptionView.setText(item.getDescription());
+            boolean hasDescription = TextUtils.isEmpty(item.getDescription());
+            descriptionView.setVisibility(hasDescription ? View.GONE : View.VISIBLE);
+            descriptionPlaceholder.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
         }
 
         return row;

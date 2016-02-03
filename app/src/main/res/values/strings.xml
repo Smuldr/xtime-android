@@ -14,9 +14,12 @@
     <!-- week overview activity -->
     <string name="title_week_overview">Week Overview</string>
     <string name="empty_week_overview">Week overview unavailable</string>
-    <string name="hours_label">hours</string>
+    <string name="hours_label">hrs</string>
     <string name="approved">approved</string>
     <string name="action_remove_account">Remove account</string>
+    <string name="open">open navigation drawer</string>
+    <string name="close">close navigation drawer</string>
+    <string name="descr_logo">logo</string>
     <!-- day overview activity -->
     <string name="title_activity_day_overview">Day Overview</string>
     <string name="empty_day_overview">Empty time sheet</string>
@@ -36,12 +39,9 @@
     <string name="title_month_overview">Month Overview</string>
     <string name="empty_month_summary">Summary unavailable</string>
     <string name="grand_total_label">Grand total</string>
-    <string name="action_approve">Approve</string>
     <string name="toast_approve_success">Time sheet approved</string>
     <string name="toast_approve_failure">Approval failed!</string>
     <string name="approve_confirm_msg">Are you sure you want to approve this month\'s time sheet?</string>
     <string name="approve_confirm_title">Confirm approval</string>
-    <string name="open">open navigation drawer</string>
-    <string name="close">close navigation drawer</string>
-    <string name="descr_logo">logo</string>
+    <string name="description_placeholder">(no description)</string>
 </resources>
