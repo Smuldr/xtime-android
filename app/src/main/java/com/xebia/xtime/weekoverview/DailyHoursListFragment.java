@@ -1,6 +1,6 @@
 package com.xebia.xtime.weekoverview;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -79,14 +79,15 @@ public class DailyHoursListFragment extends ListFragment
         getLoaderManager().initLoader(0, null, this);
     }
 
+    /* uses deprecated API to prevent crash in Ice Cream Sandwich */
+    @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
         try {
-            mListener = (Listener) context;
+            mListener = (Listener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context
-                    + " must implement DailyHoursListFragment.Listener");
+            throw new ClassCastException(activity + " must implement Listener interface");
         }
     }
 

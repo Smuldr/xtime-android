@@ -2,9 +2,9 @@ package com.xebia.xtime.editor;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -398,14 +398,15 @@ public class EditTimeSheetFragment extends Fragment implements LoaderManager
                 });
     }
 
+    /* uses deprecated API to prevent crash in Ice Cream Sandwich */
+    @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
         try {
-            mListener = (Listener) context;
+            mListener = (Listener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context
-                    + " must implement EditTimeSheetFragment.Listener");
+            throw new ClassCastException(activity + " must implement Listener interface");
         }
     }
 
