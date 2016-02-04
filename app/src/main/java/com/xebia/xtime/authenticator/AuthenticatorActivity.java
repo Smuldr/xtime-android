@@ -5,6 +5,7 @@ import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -188,6 +190,10 @@ public class AuthenticatorActivity extends AppCompatActivity {
      * Shows the progress UI and hides the login form.
      */
     private void showProgress(final boolean show) {
+        if (show) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+        }
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         mLoginStatusView.setVisibility(View.VISIBLE);
@@ -267,13 +273,14 @@ public class AuthenticatorActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Cookie cookie) {
             mAuthTask = null;
-            showProgress(false);
 
             if (null != mException) {
+                showProgress(false);
                 Toast.makeText(AuthenticatorActivity.this, R.string.error_request_failed,
                         Toast.LENGTH_LONG).show();
 
             } else if (null == cookie) {
+                showProgress(false);
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
 
