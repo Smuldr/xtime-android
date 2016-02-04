@@ -1,6 +1,8 @@
 package com.xebia.xtime;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.xebia.xtime.webservice.XTimeCookieJar;
 import com.xebia.xtime.webservice.XTimeWebService;
@@ -14,6 +16,21 @@ public class XTimeApplication extends Application {
         super.onCreate();
         initLogging();
         initHttpClient();
+        cleanOldPrefs();
+    }
+
+    /**
+     * Cleans up any old login credentials
+     */
+    private void cleanOldPrefs() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (preferences.contains("com.xebia.xtime.extra.PASSWORD")) {
+            Timber.d("Clean up old preferences");
+            preferences.edit()
+                    .remove("com.xebia.xtime.extra.USERNAME")
+                    .remove("com.xebia.xtime.extra.PASSWORD")
+                    .apply();
+        }
     }
 
     private void initHttpClient() {
