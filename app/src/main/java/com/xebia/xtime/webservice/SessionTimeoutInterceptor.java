@@ -44,7 +44,7 @@ public class SessionTimeoutInterceptor implements Interceptor {
                     String cookieHeader = request.header("Cookie");
                     if (null != cookieHeader) {
                         Cookie cookie = Cookie.parse(request.url(), cookieHeader);
-                        Timber.w("Session '" + cookie + "' timed out");
+                        Timber.w("Session '%s' expired", cookie);
                         throw new SessionExpiredException(cookie.value());
                     } else {
                         Timber.w("Request denied: no cookie in request");

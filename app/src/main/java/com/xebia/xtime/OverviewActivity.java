@@ -157,6 +157,8 @@ public class OverviewActivity extends AppCompatActivity implements DailyHoursLis
         return true;
     }
 
+    // Suppress warning: alternative is API 22+ and we do not need the new API to remove accounts
+    @SuppressWarnings("deprecation")
     private void removeAccount() {
         AccountManager accountManager = AccountManager.get(this);
         Account[] accounts = accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE);

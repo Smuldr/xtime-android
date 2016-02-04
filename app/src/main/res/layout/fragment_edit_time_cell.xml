@@ -22,12 +22,11 @@
 
         <TextView
             android:id="@+id/status_message"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:fontFamily="sans-serif-light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/editor_busy"/>
+            android:text="@string/editor_busy"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
     </LinearLayout>
     <!-- Editor form layout-->
     <ScrollView

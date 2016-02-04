@@ -1,6 +1,7 @@
 package com.xebia.xtime.monthoverview;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -112,6 +113,8 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
         setListShown(true);
     }
 
+    // Suppress lint warning: there is no way to inflate a ListView footer with proper parent view
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
