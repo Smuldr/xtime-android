@@ -7,6 +7,18 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
+        applicationId 'com.xebia.xtime'
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.dev'
+        }
+        release {
+            minifyEnabled true
+            proguardFile 'proguard-rules.pro'
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+        }
     }
 
     compileOptions {
