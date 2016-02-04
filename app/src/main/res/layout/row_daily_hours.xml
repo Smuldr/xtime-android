@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="?attr/listPreferredItemHeight"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -15,24 +15,18 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Sat 14 March"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+        tools:text="Sat, 14 March"/>
 
     <TextView
         android:id="@+id/hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="3.25"/>
-
-    <TextView
-        android:id="@+id/hours_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/hours_label"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+        android:text="@string/hours_label"
+        tools:text="3.25"/>
 
     <ImageView
         android:id="@+id/approved"

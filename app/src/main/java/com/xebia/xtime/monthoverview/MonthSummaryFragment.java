@@ -77,8 +77,9 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
         footerView.setVisibility(null != mRows && mRows.size() > 0 ? View.VISIBLE : View.GONE);
         if (null != mOverview) {
             double grandTotal = TimeSheetUtils.getGrandTotalHours(mOverview);
-            ((TextView) footerView.findViewById(R.id.grand_total)).setText(NumberFormat
-                    .getNumberInstance().format(grandTotal));
+            String grandTotalTxt = NumberFormat.getNumberInstance().format(grandTotal);
+            TextView grandTotalView = (TextView) footerView.findViewById(R.id.grand_total);
+            grandTotalView.setText(getString(R.string.hours_label, grandTotalTxt));
         }
     }
 

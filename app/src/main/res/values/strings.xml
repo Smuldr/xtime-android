@@ -14,7 +14,7 @@
     <!-- week overview activity -->
     <string name="title_week_overview">Week Overview</string>
     <string name="empty_week_overview">Week overview unavailable</string>
-    <string name="hours_label">hrs</string>
+    <string name="hours_label">%1$s hrs</string>
     <string name="approved">approved</string>
     <string name="action_remove_account">Remove account</string>
     <string name="open">open navigation drawer</string>

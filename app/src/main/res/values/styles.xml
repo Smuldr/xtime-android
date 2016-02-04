@@ -22,7 +22,8 @@
     </style>
 
     <style name="GrandTotalText">
-        <item name="android:textAppearance">?android:attr/textAppearanceLargeInverse</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.SearchResult.Title</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

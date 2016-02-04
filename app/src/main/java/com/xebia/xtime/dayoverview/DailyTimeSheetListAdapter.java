@@ -44,12 +44,12 @@ public class DailyTimeSheetListAdapter extends ArrayAdapter<TimeSheetEntry> {
             projectView.setText(item.getProject().getName());
             workTypeView.setText(item.getWorkType().getDescription());
             descriptionView.setText(item.getDescription());
-            double hours = item.getTimeCell().getHours();
-            hoursView.setText(NumberFormat.getNumberInstance().format(hours));
+            String hours = NumberFormat.getNumberInstance().format(item.getTimeCell().getHours());
+            hoursView.setText(getContext().getString(R.string.hours_label, hours));
 
             descriptionView.setText(item.getDescription());
             boolean hasDescription = TextUtils.isEmpty(item.getDescription());
-            descriptionView.setVisibility(hasDescription ? View.GONE : View.VISIBLE);
+            descriptionView.setVisibility(hasDescription ? View.INVISIBLE : View.VISIBLE);
             descriptionPlaceholder.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
         }
 

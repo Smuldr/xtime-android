@@ -51,13 +51,14 @@ public class TimeSheetRowAdapter extends ArrayAdapter<TimeSheetRow> {
             TextView descriptionPlaceholder = (TextView) row.findViewById(R.id.description_placeholder);
             descriptionView.setText(item.getDescription());
             boolean hasDescription = TextUtils.isEmpty(item.getDescription());
-            descriptionView.setVisibility(hasDescription ? View.GONE : View.VISIBLE);
+            descriptionView.setVisibility(hasDescription ? View.INVISIBLE : View.VISIBLE);
             descriptionPlaceholder.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
 
 
             TextView hoursView = (TextView) row.findViewById(R.id.hours);
             double hours = TimeSheetUtils.getTotalHours(item);
-            hoursView.setText(NumberFormat.getNumberInstance().format(hours));
+            String formattedHours = NumberFormat.getNumberInstance().format(hours);
+            hoursView.setText(getContext().getString(R.string.hours_label, formattedHours));
         }
 
         return row;

@@ -51,25 +51,23 @@ public class DailyHoursListAdapter extends ArrayAdapter<DayOverview> {
             // find the view
             TextView dateView = (TextView) row.findViewById(R.id.date);
             TextView hoursView = (TextView) row.findViewById(R.id.hours);
-            TextView hoursLabelView = (TextView) row.findViewById(R.id.hours_label);
             View approvedView = row.findViewById(R.id.approved);
 
             // update the view content
             DayOverview item = getItem(position);
             Date date = item.getDate();
             dateView.setText(mDateFormat.format(date));
-            hoursView.setText(NumberFormat.getNumberInstance().format(item.getTotalHours()));
+            String totalHours = NumberFormat.getNumberInstance().format(item.getTotalHours());
+            hoursView.setText(getContext().getString(R.string.hours_label, totalHours));
             approvedView.setVisibility(item.isEditable() ? View.GONE : View.VISIBLE);
             if (DateUtils.isToday(date.getTime())) {
                 row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.accent));
                 dateView.setTextColor(Color.WHITE);
                 hoursView.setTextColor(Color.WHITE);
-                hoursLabelView.setTextColor(Color.WHITE);
             } else if (date.getTime() > new Date().getTime()) {
                 row.setBackgroundColor(0);
                 dateView.setTextColor(Color.GRAY);
                 hoursView.setTextColor(Color.GRAY);
-                hoursLabelView.setTextColor(Color.GRAY);
             }
         }
 
