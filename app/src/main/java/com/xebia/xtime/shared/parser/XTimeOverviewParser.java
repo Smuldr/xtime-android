@@ -41,7 +41,7 @@ public class XTimeOverviewParser {
         regex += ",.*monthDaysCount:(\\d*)";
         regex += ",.*monthlyDataApproved:(\\w*)";
         regex += ",.*monthlyDataTransferred:(\\w*)";
-        regex += ",.*userName:\"?([\\w\\s]*)\"?";
+        regex += ",.*userName:\"?([^\"]*)\"?";
         regex += ",.*weekEndDates:(\\w*)";
         regex += ",.*weekStart:(\\w*)\\}\\);";
         Pattern pattern = Pattern.compile(regex);
