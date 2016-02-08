@@ -80,7 +80,7 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
             double grandTotal = TimeSheetUtils.getGrandTotalHours(mOverview);
             String grandTotalTxt = NumberFormat.getNumberInstance().format(grandTotal);
             TextView grandTotalView = (TextView) footerView.findViewById(R.id.grand_total);
-            grandTotalView.setText(getString(R.string.hours_label, grandTotalTxt));
+            grandTotalView.setText(getString(R.string.grand_total_label, grandTotalTxt));
         }
     }
 
@@ -118,8 +118,8 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        footerView = inflater.inflate(R.layout.row_grand_total, null, false);
         View rootView = inflater.inflate(R.layout.fragment_month_summary, container, false);
+        footerView = rootView.findViewById(R.id.grand_total);
         approveButton = (FloatingActionButton) rootView.findViewById(R.id.fab);
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +142,6 @@ public class MonthSummaryFragment extends ListFragment implements LoaderManager
         if (mMonth.getTime() < 0) {
             throw new NullPointerException("Missing ARG_MONTH argument");
         }
-
-        getListView().addFooterView(footerView);
 
         // start loading the month overview
         showProgressIndicator(true);

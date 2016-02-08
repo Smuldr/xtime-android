@@ -38,7 +38,7 @@
     <!-- Strings related to month overview activity -->
     <string name="title_month_overview">Month Overview</string>
     <string name="empty_month_summary">Summary unavailable</string>
-    <string name="grand_total_label">Grand total</string>
+    <string name="grand_total_label">Grand total: %1$s hrs</string>
     <string name="toast_approve_success">Time sheet approved</string>
     <string name="toast_approve_failure">Approval failed!</string>
     <string name="approve_confirm_msg">Are you sure you want to approve this month\'s time sheet?</string>

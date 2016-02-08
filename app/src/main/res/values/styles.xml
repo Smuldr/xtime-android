@@ -17,11 +17,8 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <style name="ListItem.GrandTotal">
-        <item name="android:background">@color/accent</item>
-    </style>
-
-    <style name="GrandTotalText">
+    <style name="GrandTotalText" parent="@style/ListItem">
+        <item name="android:background">@color/primary</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.SearchResult.Title</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
