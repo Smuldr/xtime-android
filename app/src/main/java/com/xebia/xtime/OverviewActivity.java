@@ -129,7 +129,7 @@ public class OverviewActivity extends AppCompatActivity implements DailyHoursLis
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.support.v7.appcompat.R.id.home) {
             return mDrawerToggle.onOptionsItemSelected(item);
-        } else if (item.getItemId() == R.id.remove_account) {
+        } else if (item.getItemId() == R.id.log_out) {
             removeAccount();
             return true;
         }

@@ -5,7 +5,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".OverviewActivity">
     <item
-        android:id="@+id/remove_account"
-        android:title="@string/action_remove_account"
+        android:id="@+id/log_out"
+        android:title="@string/action_log_out"
         app:showAsAction="never"/>
 </menu>

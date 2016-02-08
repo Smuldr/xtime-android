@@ -16,7 +16,7 @@
     <string name="empty_week_overview">Week overview unavailable</string>
     <string name="hours_label">%1$s hrs</string>
     <string name="approved">approved</string>
-    <string name="action_remove_account">Remove account</string>
+    <string name="action_log_out">Log out</string>
     <string name="open">open navigation drawer</string>
     <string name="close">close navigation drawer</string>
     <string name="descr_logo">logo</string>
