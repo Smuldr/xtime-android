@@ -1,10 +1,11 @@
 package com.xebia.xtime.monthoverview.approve;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 
 import com.xebia.xtime.R;
 
@@ -17,12 +18,12 @@ public class ApproveConfirmDialog extends DialogFragment {
 
     private Listener mListener;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.approve_confirm_title);
         builder.setMessage(R.string.approve_confirm_msg);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -38,6 +39,6 @@ public class ApproveConfirmDialog extends DialogFragment {
     }
 
     public interface Listener {
-        public abstract void onApproveConfirmed();
+        void onApproveConfirmed();
     }
 }
