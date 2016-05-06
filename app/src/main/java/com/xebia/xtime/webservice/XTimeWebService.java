@@ -19,6 +19,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+
+import okhttp3.CertificatePinner;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -38,11 +43,12 @@ public class XTimeWebService {
     private Uri baseUri = Uri.parse("https://xtime.xebia.com/xtime");
 
     public static void init(@NonNull final CookieJar cookieJar) {
-        final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        clientBuilder.cookieJar(cookieJar);
-        clientBuilder.connectTimeout(30, TimeUnit.SECONDS);
-        clientBuilder.readTimeout(30, TimeUnit.SECONDS);
-        clientBuilder.addNetworkInterceptor(new SessionTimeoutInterceptor());
+        final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                .cookieJar(cookieJar)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .addNetworkInterceptor(new SessionTimeoutInterceptor())
+                .sslSocketFactory(HttpsHelper.customSocketFactory());
         if (BuildConfig.DEBUG) {
             final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new Logger() {
                 @Override
