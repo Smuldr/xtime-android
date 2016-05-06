@@ -1,4 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+buildscript {
+    ext.kotlin_version = '1.0.1-2'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -30,7 +43,6 @@ android {
     }
 }
 
-
 dependencies {
     ext.supportlib_version='23.3.0'
     ext.okhttp_version='3.2.0'
@@ -43,6 +55,7 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:$okhttp_version"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     compile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 // load gradle file with the secret signing config for release, see:
