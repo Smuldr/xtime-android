@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.xebia.xtime.R;
-import com.xebia.xtime.shared.StatusBarColorHelper;
+import com.xebia.xtime.shared.ActivityUtils;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
 
@@ -44,7 +44,7 @@ public class EditTimeSheetActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarColorHelper.setStatusBarColor(this);
+        ActivityUtils.fixStatusBarColor(this);
         setContentView(R.layout.activity_editor);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

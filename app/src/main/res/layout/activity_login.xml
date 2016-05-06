@@ -16,7 +16,7 @@
 
     <!-- Login progress -->
     <LinearLayout
-        android:id="@+id/login_status"
+        android:id="@+id/loginLoadingIndicator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -41,7 +41,7 @@
 
     <!-- Login form -->
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/loginForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -50,7 +50,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/usernameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_username"
@@ -59,7 +59,7 @@
                 android:singleLine="true"/>
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/passwordField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
@@ -71,7 +71,7 @@
                 android:singleLine="true"/>
 
             <Button
-                android:id="@+id/sign_in_button"
+                android:id="@+id/submitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
