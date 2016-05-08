@@ -61,15 +61,17 @@ public class OverviewActivity extends AppCompatActivity implements DailyHoursLis
 
         // listen for navigation events
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
 
-        // select the correct nav menu item
-        navigationView.getMenu().findItem(mNavItemId).setChecked(true);
+            // select the correct nav menu item
+            navigationView.getMenu().findItem(mNavItemId).setChecked(true);
+        }
 
         // set up the hamburger icon to open and close the drawer
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open,
                 R.string.close);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         navigate(mNavItemId);
@@ -184,5 +186,13 @@ public class OverviewActivity extends AppCompatActivity implements DailyHoursLis
         Intent intent = new Intent(this, DayOverviewActivity.class);
         intent.putExtra(DayOverviewActivity.EXTRA_DAY_OVERVIEW, overview);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDrawerLayout != null && mDrawerToggle != null) {
+            mDrawerLayout.removeDrawerListener(mDrawerToggle);
+        }
     }
 }
