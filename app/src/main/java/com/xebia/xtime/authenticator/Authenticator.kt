@@ -3,7 +3,9 @@ package com.xebia.xtime.authenticator
 import android.accounts.*
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import com.xebia.xtime.BuildConfig
 import com.xebia.xtime.R
 import com.xebia.xtime.webservice.XTimeWebService
 import okhttp3.Cookie
@@ -85,7 +87,7 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
 
     companion object {
         @JvmField
-        val ACCOUNT_TYPE = "xtime"
+        val ACCOUNT_TYPE = if (BuildConfig.DEBUG) "xtime-debug" else "xtime"
         @JvmField
         val AUTH_TYPE = "cookie"
     }
