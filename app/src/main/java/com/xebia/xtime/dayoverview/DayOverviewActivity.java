@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.xebia.xtime.R;
 import com.xebia.xtime.editor.EditTimeSheetActivity;
-import com.xebia.xtime.shared.StatusBarColorHelper;
+import com.xebia.xtime.shared.ActivityUtils;
 import com.xebia.xtime.shared.model.DayOverview;
 import com.xebia.xtime.shared.model.Project;
 import com.xebia.xtime.shared.model.TimeSheetEntry;
@@ -44,7 +44,7 @@ public class DayOverviewActivity extends AppCompatActivity implements DailyTimeS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarColorHelper.setStatusBarColor(this);
+        ActivityUtils.fixStatusBarColor(this);
         setContentView(R.layout.activity_day_overview);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
