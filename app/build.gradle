@@ -22,8 +22,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         applicationId 'com.xebia.xtime'
-        versionCode 1605081659
-        versionName '2.1.0'
+        versionCode 1605082017
+        versionName '2.1.1'
     }
 
     buildTypes {
