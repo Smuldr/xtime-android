@@ -1,32 +1,25 @@
 package com.xebia.xtime.authenticator
 
-import android.accounts.AbstractAccountAuthenticator
-import android.accounts.Account
-import android.accounts.AccountAuthenticatorResponse
-import android.accounts.AccountManager
-import android.accounts.NetworkErrorException
+import android.accounts.*
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-
 import com.xebia.xtime.R
 import com.xebia.xtime.webservice.XTimeWebService
-
-import java.io.IOException
-
 import okhttp3.Cookie
 import timber.log.Timber
+import java.io.IOException
 
 class Authenticator(private val context: Context) : AbstractAccountAuthenticator(context) {
 
-    override fun editProperties(response: AccountAuthenticatorResponse, accountType: String): Bundle {
+    override fun editProperties(response: AccountAuthenticatorResponse, accountType: String): Bundle? {
         throw UnsupportedOperationException()
     }
 
     @Throws(NetworkErrorException::class)
     override fun addAccount(response: AccountAuthenticatorResponse, accountType: String,
-                            authTokenType: String, requiredFeatures: Array<String>,
-                            options: Bundle): Bundle {
+                            authTokenType: String?, requiredFeatures: Array<String>?,
+                            options: Bundle?): Bundle? {
         // tell Android to start the authentication activity
         val intent = Intent(context, AuthenticatorActivity::class.java)
         intent.putExtra(AuthenticatorActivity.KEY_ADD_NEW_ACCOUNT, true)
@@ -37,28 +30,28 @@ class Authenticator(private val context: Context) : AbstractAccountAuthenticator
     }
 
     @Throws(NetworkErrorException::class)
-    override fun confirmCredentials(response: AccountAuthenticatorResponse, account: Account, options: Bundle): Bundle {
+    override fun confirmCredentials(response: AccountAuthenticatorResponse, account: Account, options: Bundle?): Bundle? {
         throw UnsupportedOperationException()
     }
 
     @Throws(NetworkErrorException::class)
-    override fun getAuthToken(response: AccountAuthenticatorResponse, account: Account, authTokenType: String, options: Bundle): Bundle {
+    override fun getAuthToken(response: AccountAuthenticatorResponse, account: Account, authTokenType: String, options: Bundle?): Bundle? {
         Timber.d("Get auth token for account %s, type: %s", account, authTokenType)
         val cookie: Cookie? = loginWithPassword(account)
         return createAuthResultBundle(response, account, cookie)
     }
 
-    override fun getAuthTokenLabel(authTokenType: String): String {
+    override fun getAuthTokenLabel(authTokenType: String): String? {
         return context.getString(R.string.auth_token_label)
     }
 
     @Throws(NetworkErrorException::class)
-    override fun updateCredentials(response: AccountAuthenticatorResponse, account: Account, authTokenType: String, options: Bundle): Bundle {
+    override fun updateCredentials(response: AccountAuthenticatorResponse, account: Account, authTokenType: String?, options: Bundle?): Bundle? {
         throw UnsupportedOperationException()
     }
 
     @Throws(NetworkErrorException::class)
-    override fun hasFeatures(response: AccountAuthenticatorResponse, account: Account, features: Array<String>): Bundle {
+    override fun hasFeatures(response: AccountAuthenticatorResponse, account: Account, features: Array<String>): Bundle? {
         throw UnsupportedOperationException()
     }
 

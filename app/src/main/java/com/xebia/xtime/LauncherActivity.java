@@ -4,11 +4,15 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.xebia.xtime.authenticator.Authenticator;
+
+import java.io.IOException;
 
 import timber.log.Timber;
 
@@ -67,7 +71,13 @@ public class LauncherActivity extends Activity {
                 Timber.d("Account setup cancelled");
                 activity.finish();
             } else if (future.isDone()) {
-                activity.startOverviewActivity();
+                try {
+                    future.getResult();
+                    activity.startOverviewActivity();
+                } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+                    Timber.e(e, "Failed to get authenticator result");
+                    activity.finish();
+                }
             } else {
                 Timber.w("Something is very wrong with the AccountManager");
                 activity.finish();
