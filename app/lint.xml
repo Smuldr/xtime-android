@@ -4,4 +4,6 @@
         <ignore path="*/com.squareup.okio/okio/*"/>
         <ignore path="*/org.bouncycastle/bcprov-jdk15on/*"/>
     </issue>
+    <!-- Travis is not able to lint API 24 yet -->
+    <issue id="NewApi" severity="warning"/>
 </lint>
