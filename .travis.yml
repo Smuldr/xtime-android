@@ -1,12 +1,14 @@
 language: android
+jdk:
+  - oraclejdk8
 android:
   components:
     - platform-tools
     - tools
     - extra-android-m2repository
-    - build-tools-23.0.1
+    - build-tools-23.0.3
     - android-21
-    - android-23
+    - android-24
     - sys-img-armeabi-v7a-android-21
 # Emulator Management: Create, Start and Wait
 before_script:

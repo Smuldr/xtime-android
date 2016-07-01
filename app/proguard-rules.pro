@@ -22,21 +22,17 @@
 # OkHttp
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class com.squareup.okhttp3.** { *; }
--keep interface com.squareup.okhttp3.** { *; }
--dontwarn com.squareup.okhttp3.**
-
--dontwarn android.test.**
--dontwarn org.bouncycastle.**
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
 
 # Okio
--keep class sun.misc.Unsafe { *; }
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+-keep class okio.** { *; }
 
 # Android Support Library
--dontwarn android.support.design.**
 -keep public class android.support.v7.widget.** { *; }
 -keep public class android.support.v7.internal.widget.** { *; }
 -keep public class android.support.v7.internal.view.menu.** { *; }
