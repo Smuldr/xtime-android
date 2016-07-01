@@ -25,11 +25,27 @@ android {
         versionName '2.1.1'
     }
 
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('./misc/signing/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+        release {
+            storeFile rootProject.file(project.hasProperty('xtime.signing.storePassword') ? './misc/signing/signing.keystore' : './misc/signing/debug.keystore')
+            storePassword findProperty('xtime.signing.storePassword') ?: 'android'
+            keyAlias findProperty('xtime.signing.keyAlias') ?: 'androiddebugkey'
+            keyPassword findProperty('xtime.signing.keyPassword') ?: 'android'
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix '.dev'
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFile 'proguard-rules.pro'
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
@@ -55,11 +71,4 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     androidTestCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
-}
-
-// load gradle file with the secret signing config for release, see:
-// https://www.timroes.de/2013/09/22/handling-signing-configs-with-gradle/
-ext.signing_filename = '../misc/signing/signing'
-if (file("${signing_filename}.gradle").exists()) {
-    apply from: file("${signing_filename}.gradle");
 }

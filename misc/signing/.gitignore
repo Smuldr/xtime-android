@@ -1,2 +1,0 @@
-# the file with the signing passwords should not be checking in version control
-signing.gradle
